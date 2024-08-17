@@ -29,7 +29,7 @@ ENV USERNAME=$USERNAME
 ENV USER_UID=$USER_UID
 ENV USER_GID=$USER_GID
 
-RUN apk add libpq git
+RUN apk add libpq git openssh-client ca-certificates
 COPY --from=base /usr/local/lib/python3.12/site-packages/ /usr/local/lib/python3.12/site-packages/
 COPY --from=base /usr/local/bin/ /usr/local/bin/
 

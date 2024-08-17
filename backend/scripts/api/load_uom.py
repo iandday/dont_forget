@@ -4,6 +4,7 @@ import logging
 
 logger = logging.getLogger("api.scripts.load_uom")
 
+
 def run():
     user = get_user_model().objects.all()[0]
     data = [
@@ -36,12 +37,12 @@ def run():
         {"name": "Package", "plural_name": "Packages"},
         {"name": "Pint", "plural_name": "Pints"},
         {"name": "Roll", "plural_name": "Rolls"},
-        {"name": "Clove", "plural_name": "Cloves" },
+        {"name": "Clove", "plural_name": "Cloves"},
         {"name": "Tablespoon","plural_name": "Tablespoons"},
         {"name": "Teaspoon","plural_name":"Teaspoons"}
     ]
 
     for obj in data:
-        o, created = UnitOfMeasure.objects.get_or_create(name=obj['name'], plural_name=obj['plural_name'], created_by = user)
+        o, created = UnitOfMeasure.objects.get_or_create(name=obj['name'], plural_name=obj['plural_name'], created_by=user)
         if created:
             logger.info(F"Added: {obj['name']}")

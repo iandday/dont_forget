@@ -20,6 +20,7 @@ from api.models.unit_of_measure import UnitOfMeasure
 
 logger = logging.getLogger(__name__)
 
+
 class UnitOfMeasureViewSet(viewsets.APIViewSet):
     model = UnitOfMeasure
 
@@ -27,20 +28,20 @@ class UnitOfMeasureViewSet(viewsets.APIViewSet):
     list = ListView(name='uom_list', response_body=List[UnitOfMeasureOut])
     create = CreateView(
         name='uom_create',
-         request_body=UnitOfMeasureIn,
-         response_body=UnitOfMeasureOut,
-         pre_save=set_created_updated_by_on_create
-     )
+        request_body=UnitOfMeasureIn,
+        response_body=UnitOfMeasureOut,
+        pre_save=set_created_updated_by_on_create
+    )
     retrieve = ReadView(name='uom_read', path='/{id}', response_body=UnitOfMeasureOut)
     update = UpdateView(
         name='uom_update',
         path='/{id}',
-         request_body=UnitOfMeasureIn,
-         response_body=UnitOfMeasureOut,
-         pre_save=set_updated_by_on_update,
-     )
+        request_body=UnitOfMeasureIn,
+        response_body=UnitOfMeasureOut,
+        pre_save=set_updated_by_on_update,
+    )
     delete = DeleteView(name='uom_delete', path='/{id}')
+
 
 router = Router()
 UnitOfMeasureViewSet.add_views_to(router)
-

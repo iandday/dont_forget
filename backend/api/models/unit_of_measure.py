@@ -14,9 +14,9 @@ class UnitOfMeasure(models.Model):
             models.UniqueConstraint(fields=['name'], name="name")
         ]
 
-    def __str__(self): 
+    def __str__(self):
         return self.name
-    
+
     objects = ActiveManager()
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

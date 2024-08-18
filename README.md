@@ -11,3 +11,39 @@ A listgroup (type of store) is made of up lists (store): Grocery Store
 			category
 			purchase count
 			note
+
+
+ListGroup
+	id
+	name
+
+List
+	id
+	name
+	ListGroup(s)
+	categories
+
+Category
+	id
+	Name
+	ListGroup(s)
+
+
+Item
+	id
+	Name
+	plural name
+	listGroup(s)
+	photo
+	quantity
+	category
+	Note
+	purchase_count
+
+ListItem
+	id
+	quantity
+	Item
+	List
+	active
+	completed

@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from api.views import uom_router, user_auth_router, user_no_auth_router, category_router
+from api.views import uom_router, user_auth_router, user_no_auth_router, category_router, shopping_list_group_router
 from django.core.exceptions import (
     FieldError,
     ObjectDoesNotExist,
@@ -16,6 +16,7 @@ api = NinjaExtraAPI(title='Shopping List API',
                     urls_namespace="api")
 api.add_router("/uom", uom_router, auth=JWTAuth(), tags=["Units of Measure"])
 api.add_router("/category", category_router, auth=JWTAuth(), tags=["Categories"])
+api.add_router("/shopping_list_group", shopping_list_group_router, auth=JWTAuth(), tags=["Shopping List Group"])
 api.add_router("/users", user_no_auth_router, tags=["Users"])
 api.add_router("/users", user_auth_router, auth=JWTAuth(), tags=["Users"])
 

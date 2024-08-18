@@ -22,7 +22,8 @@
         "ms-python.flake8",
         "ms-python.black-formatter",
         "njpwerner.autodocstring",
-        "vivaxy.vscode-conventional-commits"
+        "vivaxy.vscode-conventional-commits",
+        "freakypie.code-python-isort"
       ]
     }
   }

@@ -40,7 +40,12 @@ dev = [
   "black",
   "flake8",
   "Flake8-pyproject",
+  "isort"
 ]
+
+[tool.isort]
+profile = "black"
+line_length = 125
 
 [tool.black]
 line-length = 125

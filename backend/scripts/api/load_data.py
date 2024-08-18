@@ -1,4 +1,4 @@
-from api.models import UnitOfMeasure
+from api.models import UnitOfMeasure, Category, ShoppingListGroup
 from django.contrib.auth import get_user_model
 import logging
 
@@ -7,7 +7,8 @@ logger = logging.getLogger("api.scripts.load_uom")
 
 def run():
     user = get_user_model().objects.all()[0]
-    data = [
+
+    uom_data = [
         {"name": "Unit", "plural_name": "Units"},
         {"name": "Bunch", "plural_name": "Bunches"},
         {"name": "Ounce", "plural_name": "Ounces"},
@@ -42,7 +43,66 @@ def run():
         {"name": "Teaspoon","plural_name":"Teaspoons"}
     ]
 
-    for obj in data:
+    category_data = [
+        'Bakery',
+        'Deli',
+        'Dairy',
+        'Baking Supplies',
+        'Canned Meats',
+        'Snacks-Chips',
+        'Snacks-Pretzels',
+        'Snacks-Cookies',
+        'Snacks-Crackers',
+        'Snacks-Nuts',
+        'Canned Vegetables',
+        'Canned Soup',
+        'Paper Products',
+        'Juice',
+        'Soda',
+        'Pharmacy',
+        'Beverages',
+        'Frozen Treats/Ice Cream',
+        'Frozen Dinners',
+        'Frozen Vegetables',
+        'Frozen Other',
+        'Laundry Supplies',
+        'Meat',
+        'Seafood',
+        'Produce',
+        'Condiments',
+        'Mexican',
+        'Asian',
+        'Italian/Pasta/Sauce',
+        'Cereal',
+        'Bread',
+        'Alcohol',
+        'Floral',
+        'Pet Food',
+        'Cleaning Products',
+        'Hair Products - Shampoo/Conditioner',
+        'Automotive',
+        'Office Supplies',
+        'Beauty Supplies',
+        'Other Breakfast',
+        'Coffee/Tea',
+    ]
+
+    shopping_list_group_data = [
+        'Grocery',
+        'Home Improvement',
+    ]
+
+    for obj in uom_data:
         o, created = UnitOfMeasure.objects.get_or_create(name=obj['name'], plural_name=obj['plural_name'], created_by=user)
         if created:
             logger.info(F"Added: {obj['name']}")
+
+    for obj in category_data:
+        o, created = Category.objects.get_or_create(name=obj, created_by=user)
+        if created:
+            logger.info(F"Added: {obj}")
+
+    for obj in shopping_list_group_data:
+        o, created = ShoppingListGroup.objects.get_or_create(name=obj, created_by=user)        
+        if created:
+            logger.info(F"Added: {obj}")

@@ -1,26 +1,22 @@
 services:
-  # proxy:
-  #   build:
-  #     dockerfile: ./proxy/Dockerfile
-  #     context: ./
-  #     args:
-  #       VITE_BACKEND_URL: http://localhost
-  #       VITE_PAGE_TITLE: Plant Tracker
-  #   restart: always
-  #   volumes:
-  #     - ./media:/media
-  #     - ./static:/static
-  #   ports:
-  #     - 80:80
-  #   depends_on:
-  #     - django
+  proxy:
+    build:
+      dockerfile: ./proxy/Dockerfile
+      context: ./
+    restart: always
+    volumes:
+      - ./media:/media
+      - ./static:/static
+    ports:
+      - 80:80
+    depends_on:
+      - django
   django:
     depends_on:
       - db
     build:
       dockerfile: Dockerfile
       context: ./
-      #target: dev
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
@@ -36,7 +32,6 @@ services:
       - LOGLEVEL=${LOGLEVEL}
       - LOGPATH=${LOGPATH}
       - ENABLE_REGISTRATION=${ENABLE_REGISTRATION}
-      - MEDIA_PATH=${MEDIA_PATH}
       - DJANGO_SUPERUSER_PASSWORD=${ADMIN_PASSWORD}
       - DJANGO_SUPERUSER_EMAIL=${ADMIN_EMAIL}
       - DJANGO_SUPERUSER_USERNAME=${ADMIN_EMAIL}

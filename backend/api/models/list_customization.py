@@ -10,7 +10,7 @@ from simple_history.models import HistoricalRecords
 class ListCustomization(models.Model):
 
     class Meta:
-        verbose_name = 'Item'
+        verbose_name = 'List Customization'
         constraints = [
             models.UniqueConstraint(fields=['shopping_list', 'item'], name="item--shopping-list")
         ]

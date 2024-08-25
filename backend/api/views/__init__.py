@@ -6,3 +6,4 @@ from .user import auth_router as user_auth_router
 from .user import no_auth_router as user_no_auth_router
 from .item import router as item_router
 from .list_customization import router as list_customization_router
+from .list_item import router as list_item_router

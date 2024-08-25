@@ -159,10 +159,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = "/static"
 
-MEDIA_ROOT = env("MEDIA_PATH")
+STATIC_ROOT = "/static"
+MEDIA_ROOT = '/media'
+STATIC_URL = "static/"
 MEDIA_URL = "media/"
 
 # Default primary key field type
@@ -208,7 +208,7 @@ NINJA_JWT = {
     "TOKEN_VERIFY_INPUT_SCHEMA": "ninja_jwt.schema.TokenVerifyInputSchema",
 }
 
-CSRF_TRUSTED_ORIGINS = ["https://*.ianday.me"]
+CSRF_TRUSTED_ORIGINS = ['http://localhost', "https://*.ianday.me"]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:80",
     "http://localhost:5173",

@@ -35,7 +35,7 @@ class ShoppingListViewSet(viewsets.APIViewSet):
     )
     retrieve = ReadView(name='shopping_list_read', path='/{id}', response_body=ShoppingListOut)
     update = UpdateView(
-        name='shopping_list_group_update',
+        name='shopping_list_update',
         path='/{id}',
         request_body=ShoppingListIn,
         response_body=ShoppingListOut,

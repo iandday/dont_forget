@@ -8,7 +8,8 @@ from api.views import (
     uom_router,
     user_auth_router,
     user_no_auth_router,
-    list_customization_router
+    list_customization_router,
+    list_item_router
 )
 from django.core.exceptions import FieldError, ObjectDoesNotExist, PermissionDenied, ValidationError
 from ninja.errors import ValidationError as NinjaValidationError
@@ -23,6 +24,7 @@ api.add_router("/category", category_router, auth=JWTAuth(), tags=["Categories"]
 api.add_router("/shopping_list_group", shopping_list_group_router, auth=JWTAuth(), tags=["Shopping List Group"])
 api.add_router("/shopping_list", shopping_list_router, auth=JWTAuth(), tags=["Shopping List"])
 api.add_router("/list_customization", list_customization_router, auth=JWTAuth(), tags=["List Customization"])
+api.add_router("/list_item", list_item_router, auth=JWTAuth(), tags=["List Item"])
 api.add_router("/item", item_router, auth=JWTAuth(), tags=["Items"])
 api.add_router("/users", user_no_auth_router, tags=["Users"])
 api.add_router("/users", user_auth_router, auth=JWTAuth(), tags=["Users"])

@@ -40,7 +40,9 @@ dev = [
   "black",
   "flake8",
   "Flake8-pyproject",
-  "isort"
+  "isort",
+  "pyproject-Flake8",
+  "pre-commit"
 ]
 
 [tool.isort]

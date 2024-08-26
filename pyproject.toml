@@ -49,21 +49,7 @@ line_length = 125
 
 [tool.black]
 line-length = 125
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | migrations
-)/
-'''
+skip-string-normalization = 1
 
 [tool.flake8]
 ignore = ['E231', 'E241']

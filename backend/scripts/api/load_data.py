@@ -1,4 +1,4 @@
-from api.models import UnitOfMeasure, Category, ShoppingListGroup
+from api.models import UnitOfMeasure, Category, ShoppingListGroup, ShoppingList
 from django.contrib.auth import get_user_model
 import logging
 
@@ -39,8 +39,8 @@ def run():
         {"name": "Pint", "plural_name": "Pints"},
         {"name": "Roll", "plural_name": "Rolls"},
         {"name": "Clove", "plural_name": "Cloves"},
-        {"name": "Tablespoon","plural_name": "Tablespoons"},
-        {"name": "Teaspoon","plural_name":"Teaspoons"}
+        {"name": "Tablespoon", "plural_name": "Tablespoons"},
+        {"name": "Teaspoon", "plural_name": "Teaspoons"},
     ]
 
     category_data = [
@@ -92,6 +92,14 @@ def run():
         'Home Improvement',
     ]
 
+    shopping_list_data = [
+        ('Kroger', 'Grocery'),
+        ('Costco', 'Grocery'),
+        ('Home Depot', 'Home Improvement'),
+        ('Lowes', 'Home Improvement'),
+    ]
+
+    item_data = {'Grocery': {'': []}, 'Grocery': {'': []}}
     for obj in uom_data:
         o, created = UnitOfMeasure.objects.get_or_create(name=obj['name'], plural_name=obj['plural_name'], created_by=user)
         if created:
@@ -103,6 +111,12 @@ def run():
             logger.info(F"Added: {obj}")
 
     for obj in shopping_list_group_data:
-        o, created = ShoppingListGroup.objects.get_or_create(name=obj, created_by=user)        
+        o, created = ShoppingListGroup.objects.get_or_create(name=obj, created_by=user)
         if created:
             logger.info(F"Added: {obj}")
+
+    for obj in shopping_list_data:
+        slg = ShoppingListGroup.objects.get(name=obj[1])
+        o, created = ShoppingList.objects.get_or_create(name=obj[0], list_group=slg, created_by=user)
+        if created:
+            logger.info(F"Added: {obj[0]}")

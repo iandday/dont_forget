@@ -5,8 +5,8 @@ services:
       context: ./
     restart: always
     volumes:
-      - ./media:/media
-      - ./static:/static
+      - ./persist/media:/media
+      - ./persist/static:/static
     ports:
       - 80:80
     depends_on:

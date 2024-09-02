@@ -1,6 +1,7 @@
-from api.models import UnitOfMeasure, Category, ShoppingListGroup, ShoppingList
+from api.models import UnitOfMeasure, Category, ShoppingListGroup, ShoppingList, Item
 from django.contrib.auth import get_user_model
 import logging
+
 
 logger = logging.getLogger("api.scripts.load_uom")
 
@@ -152,7 +153,7 @@ def run():
                 {'name': 'Corn', 'plural_name': 'Corn', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
                 {'name': 'Cauliflower', 'plural_name': 'Cauliflower', 'default_quantity': 1, 'unit_of_measure': 'Head'},
                 {'name': 'Jalapeno Pepper', 'plural_name': 'Jalapeno Peppers','default_quantity': 1,'unit_of_measure': 'Piece'},
-                {'name': 'Brussel Sprouts', 'plural_name': 'Brussel Sprouts', 'default_quantity': 1, 'unit_of_measure': 'Nag'},
+                {'name': 'Brussel Sprouts', 'plural_name': 'Brussel Sprouts', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
                 {'name': 'Parsley', 'plural_name': 'Parsley', 'default_quantity': 1, 'unit_of_measure': 'Bunch'},
                 {'name': 'Ginger', 'plural_name': 'Ginger', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
                 {'name': 'Green Bean', 'plural_name': 'Green Beans', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
@@ -168,49 +169,70 @@ def run():
                 {'name': 'Romaine Lettuce', 'plural_name': 'Romaine Lettuce', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
                 {'name': 'Cole Slaw', 'plural_name': 'Cole Slaw', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
                 {'name': 'Shredded Lettuce', 'plural_name': 'Shredded Lettuce', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+            ],
+            'Deli': [
+                {'name': 'Salami', 'plural_name': 'Salami', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Pepperoni', 'plural_name': 'Pepperoni', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Deli Ham', 'plural_name': 'Deli Ham', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Sliced Swiss Cheese', 'plural_name': 'Sliced Swiss Cheese', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Bologna', 'plural_name': 'Bologna', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Sliced Turkey', 'plural_name': 'Sliced Turkey', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Sliced Provolone', 'plural_name': 'Sliced Provolone', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Rotisserie Chicken', 'plural_name': 'Rotisserie Chicken', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+            ],
+            'Dairy': [
+                {'name': 'Whole Milk', 'plural_name': 'Whole Milk', 'default_quantity': 1, 'unit_of_measure': 'Gallon'},
+                {'name': '1% Milk', 'plural_name': '1% Milk', 'default_quantity': 1, 'unit_of_measure': 'Gallon'},
+                {'name': '2% Milk', 'plural_name': '2% Milk', 'default_quantity': 1, 'unit_of_measure': 'Gallon'},
+                {'name': 'Skim Milk', 'plural_name': 'Skim Milk', 'default_quantity': 1, 'unit_of_measure': 'Gallon'},
+                {'name': 'Butter', 'plural_name': 'Butter', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Eggs', 'plural_name': 'Eggs', 'default_quantity': 1, 'unit_of_measure': 'Carton'},
+                {'name': 'Sour Cream', 'plural_name': 'Sour Cream', 'default_quantity': 1, 'unit_of_measure': 'Pint'},
+                {'name': 'Cottage Cheese', 'plural_name': 'Cottage Cheese', 'default_quantity': 1, 'unit_of_measure': 'Quart'},
+                {'name': 'Whipped Cream', 'plural_name': 'Whipped Cream', 'default_quantity': 1, 'unit_of_measure': 'Can'},
+            ],
+            'Bakery': [
+                {'name': 'French Bread', 'plural_name': 'French Bread', 'default_quantity': 1, 'unit_of_measure': 'Loaf'},
+                {'name': 'Italian Bread', 'plural_name': 'Italian Bread', 'default_quantity': 1, 'unit_of_measure': 'Loaf'},
+            ],
+            'Bread': [
+                {'name': 'White Bread', 'plural_name': 'White Bread', 'default_quantity': 1, 'unit_of_measure': 'Loaf'},
+                {'name': 'Wheat Bread', 'plural_name': 'Wheat Bread', 'default_quantity': 1, 'unit_of_measure': 'Loaf'},
+                {'name': 'Cinnamon Raisin Bread', 'plural_name': 'Cinnamon Raisin Bread', 'default_quantity': 1, 'unit_of_measure': 'Loaf'},
+                {'name': 'English Muffins Plain', 'plural_name': 'English Muffins Plain', 'default_quantity': 1, 'unit_of_measure': 'Package'},
+                {'name': 'English Muffins Cinnamon Raisin', 'plural_name': 'English Muffins Cinnamon Raisin', 'default_quantity': 1, 'unit_of_measure': 'Package'},
+            ],
+            'Meat': [
+                {'name': 'Ground Beef', 'plural_name': 'Ground Beef', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Ground Turkey', 'plural_name': 'Ground Turkey', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Ground Chicken', 'plural_name': 'Ground Chicken', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Pork Chop', 'plural_name': 'Pork Chops', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Filet Mignon', 'plural_name': 'Filet Mignon', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Strip Steak', 'plural_name': 'Strip Steak', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Chicken Breasts', 'plural_name': 'Chicken Breasts', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Chicken Drumsticks', 'plural_name': 'Chicken Drumsticks', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Italian Sausage', 'plural_name': 'Italian Sausage', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+            ],
+            'Seafood': [
+                {'name': 'Salmon', 'plural_name': 'Salmon', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+                {'name': 'Fresh Shrimp', 'plural_name': 'Fresh Shrimp', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
+            ],
+            'Mexican': [
+                {'name': 'Taco Shell', 'plural_name': 'Taco Shells', 'default_quantity': 1, 'unit_of_measure': 'Package'},
+                {'name': 'Salsa', 'plural_name': 'Salsa', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Taco Seasoning', 'plural_name': 'Taco Seasoning', 'default_quantity': 1, 'unit_of_measure': 'Package'},
+                {'name': 'Tortillas', 'plural_name': 'Tortillas', 'default_quantity': 1, 'unit_of_measure': 'Package'},
             ]
         },
-        'Home Improvement': {'': []},
+        'Home Improvement': {},
     }
     # fmt: on
 
-    # {'name': 'Salami', 'plural_name': 'Salami', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Pepperoni', 'plural_name': 'Pepperoni', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Deli Ham', 'plural_name': 'Deli Ham', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Sliced Swiss Cheese', 'plural_name': 'Sliced Swiss Cheese', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Bologna', 'plural_name': 'Bologna', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Sliced Turkey', 'plural_name': 'Sliced Turkey', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Sliced Provolone', 'plural_name': 'Sliced Provolone', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Rotisserie Chicken', 'plural_name': 'Rotisserie Chicken', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Whole Milk', 'plural_name': 'Whole Milk', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': '1% Milk', 'plural_name': '1% Milk', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': '2% Milk', 'plural_name': '2% Milk', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Skim Milk', 'plural_name': 'Skim Milk', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Orange Juice', 'plural_name': 'Orange Juice', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Fresh Lemonade', 'plural_name': 'Fresh Lemonade', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Butter', 'plural_name': 'Butter', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Eggs', 'plural_name': 'Eggs', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Sour Cream', 'plural_name': 'Sour Cream', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Cottage Cheese', 'plural_name': 'Cottage Cheese', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Whipped Cream', 'plural_name': 'Whipped Cream', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'White Bread', 'plural_name': 'White Bread', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Wheat Bread', 'plural_name': 'Wheat Bread', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Cinnamon Raisin Bread', 'plural_name': 'Cinnamon Raisin Bread', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'English Muffins Plain', 'plural_name': 'English Muffins Plain', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'English Muffins Cinnamon Raisin', 'plural_name': 'English Muffins Cinnamon Raisin', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'French Bread', 'plural_name': 'French Bread', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Italian Bread', 'plural_name': 'Italian Bread', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Blueberry Muffins', 'plural_name': 'Blueberry Muffins', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Cinnamon Muffins', 'plural_name': 'Cinnamon Muffins', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Chocolate Chip Muffins', 'plural_name': 'Chocolate Chip Muffins', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Ground Beef', 'plural_name': 'Ground Beef', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Filet Mignon', 'plural_name': 'Filet Mignon', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Strip Steak', 'plural_name': 'Strip Steak', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Chicken Breasts', 'plural_name': 'Chicken Breasts', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Chicken Drumsticks', 'plural_name': 'Chicken Drumsticks', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Italian Sausage', 'plural_name': 'Italian Sausage', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Salmon', 'plural_name': 'Salmon', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Fresh Shrimp', 'plural_name': 'Fresh Shrimp', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Chips', 'plural_name': 'Chips', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'BBQ Chips', 'plural_name': 'BBQ Chips', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Sour Cream & Onion Chips', 'plural_name': 'Sour Cream & Onion Chips', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
@@ -316,10 +338,7 @@ def run():
     # {'name': 'Steel Wool Pads', 'plural_name': 'Steel Wool Pads', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Paper Towels', 'plural_name': 'Paper Towels', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Toilet Paper', 'plural_name': 'Toilet Paper', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Taco Shells', 'plural_name': 'Taco Shells', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Salsa (Jar)', 'plural_name': 'Salsa (Jar)', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Taco Seasoning', 'plural_name': 'Taco Seasoning', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Tortillas', 'plural_name': 'Tortillas', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
+
     # {'name': 'Maple Syrup', 'plural_name': 'Maple Syrup', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     for obj in uom_data:
         o, created = UnitOfMeasure.objects.get_or_create(name=obj['name'], plural_name=obj['plural_name'], created_by=user)
@@ -341,3 +360,20 @@ def run():
         o, created = ShoppingList.objects.get_or_create(name=obj[0], list_group=slg, created_by=user)
         if created:
             logger.info(F"Added: {obj[0]}")
+
+    for list_group, categories in item_data.items():
+        slg = ShoppingListGroup.objects.get(name=list_group)
+        for category, cat_items in categories.items():
+            c = Category.objects.get(name=category)
+            for item in cat_items:
+                o, created = Item.objects.get_or_create(
+                    name=item['name'],
+                    plural_name=item['plural_name'],
+                    list_group=slg,
+                    default_quantity=item['default_quantity'],
+                    unit_of_measure=UnitOfMeasure.objects.get(name=item['unit_of_measure']),
+                    category=c,
+                    created_by=user,
+                )
+                if created:
+                    logger.info(F"Added: {item['name']}")

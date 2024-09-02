@@ -10,10 +10,13 @@ from api.models import UnitOfMeasure, User, Category, Item, ListCustomization, L
 class CustomUserClass(ImportExportModelAdmin, SimpleHistoryAdmin):
     pass
 
-
 @admin.register(UnitOfMeasure)
 class UnitOfMeasureClass(ImportExportModelAdmin, SimpleHistoryAdmin):
     list_display = ['name', 'plural_name', 'created_at', 'updated_at']
+
+@admin.register(Item)
+class ItemClass(ImportExportModelAdmin, SimpleHistoryAdmin):
+    list_display = ['name', 'plural_name', 'list_group', 'category']
     
 
 
@@ -21,10 +24,6 @@ class UnitOfMeasureClass(ImportExportModelAdmin, SimpleHistoryAdmin):
 class CategoryClass(ImportExportModelAdmin, SimpleHistoryAdmin):
     pass
 
-
-@admin.register(Item)
-class ItemClass(ImportExportModelAdmin, SimpleHistoryAdmin):
-    pass
 
 
 @admin.register(ListCustomization)

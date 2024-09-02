@@ -42,6 +42,7 @@ def run():
         {"name": "Clove", "plural_name": "Cloves"},
         {"name": "Tablespoon", "plural_name": "Tablespoons"},
         {"name": "Teaspoon", "plural_name": "Teaspoons"},
+        {"name": "Head", "plural_name": "Heads"},
     ]
 
     category_data = [

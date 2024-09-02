@@ -1,7 +1,6 @@
 import uuid
 
 from api.models import UnitOfMeasure, Item, ShoppingList
-from api.utils.model_manager import ActiveManager
 from django.conf import settings
 from django.db import models
 from simple_history.models import HistoricalRecords
@@ -17,8 +16,6 @@ class ListItem(models.Model):
 
     def __str__(self):
         return str(self.item)
-
-    objects = ActiveManager()
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     shopping_list = models.ForeignKey(ShoppingList, on_delete=models.CASCADE)
@@ -45,7 +42,4 @@ class ListItem(models.Model):
         null=True,
         blank=True,
     )
-    deleted_at = models.DateTimeField(blank=True, null=True)
-    is_active = models.BooleanField(default=True)
-    is_deleted = models.BooleanField(default=False)
     history = HistoricalRecords()

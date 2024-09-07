@@ -12,16 +12,11 @@ from api.models import Category
 class CategoryIn(ModelSchema):
     class Meta:
         model = Category
-        exclude = ['created_at', 'updated_at']
+        exclude = ['created_at', 'updated_at', 'created_by', 'updated_by']
 
 
-class CategoryOut(Schema):
-    id: UUID
-    name: str
-    created_at: datetime
-    created_by_id: Optional[UUID]
-    updated_at: datetime
-    updated_by_id: Optional[UUID]
-    is_active: bool
-    is_deleted: bool
-    deleted_at: Optional[datetime]
+class CategoryOut(ModelSchema):
+    class Meta:
+        model=Category
+        fields='__all__'
+

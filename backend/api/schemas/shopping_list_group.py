@@ -12,16 +12,11 @@ from api.models import ShoppingListGroup
 class ShoppingListGroupIn(ModelSchema):
     class Meta:
         model = ShoppingListGroup
-        exclude = ['created_at', 'updated_at']
+        exclude = ['created_at', 'updated_at', 'created_by', 'updated_by']
 
 
-class ShoppingListGroupOut(Schema):
-    id: UUID
-    name: str
-    created_at: datetime
-    created_by_id: Optional[UUID]
-    updated_at: datetime
-    updated_by_id: Optional[UUID]
-    is_active: bool
-    is_deleted: bool
-    deleted_at: Optional[datetime]
+class ShoppingListGroupOut(ModelSchema):
+    class Meta:
+        model = ShoppingListGroup
+        fields='__all__'
+    #categories: list[UUID]

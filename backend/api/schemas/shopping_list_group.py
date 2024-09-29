@@ -18,5 +18,20 @@ class ShoppingListGroupIn(ModelSchema):
 class ShoppingListGroupOut(ModelSchema):
     class Meta:
         model = ShoppingListGroup
-        fields='__all__'
-    #categories: list[UUID]
+        fields = '__all__'
+
+
+class MinimizedShoppingListGroupOut(ModelSchema):
+    class Meta:
+        model = ShoppingListGroup
+        fields = ['id', 'name']
+
+
+class ShoppingListGroupAddItemOut(ModelSchema):
+    class Meta:
+        model = ShoppingListGroup
+        fields = '__all__'
+
+
+class ShoppingListGroupAddItemIn(Schema):
+    item_id: UUID

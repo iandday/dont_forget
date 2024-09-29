@@ -1,7 +1,7 @@
-from api.models import UnitOfMeasure, Category, ShoppingListGroup, ShoppingList, Item
+import random
+from api.models import UnitOfMeasure, Category, ShoppingListGroup, ShoppingList, Item, ListItem, ListCustomization
 from django.contrib.auth import get_user_model
 import logging
-
 
 logger = logging.getLogger("api.scripts.load_uom")
 
@@ -45,53 +45,54 @@ def run():
         {"name": "Head", "plural_name": "Heads"},
     ]
 
-    category_data = [
-        'Bakery',
-        'Deli',
-        'Dairy',
-        'Baking Supplies',
-        'Canned Meats',
-        'Snacks-Chips',
-        'Snacks-Pretzels',
-        'Snacks-Cookies',
-        'Snacks-Crackers',
-        'Snacks-Nuts',
-        'Canned Vegetables',
-        'Canned Soup',
-        'Paper Products',
-        'Juice',
-        'Soda',
-        'Pharmacy',
-        'Beverages',
-        'Frozen Treats/Ice Cream',
-        'Frozen Dinners',
-        'Frozen Vegetables',
-        'Frozen Other',
-        'Laundry Supplies',
-        'Meat',
-        'Seafood',
-        'Produce',
-        'Condiments',
-        'Mexican',
-        'Asian',
-        'Italian/Pasta/Sauce',
-        'Cereal',
-        'Bread',
-        'Alcohol',
-        'Floral',
-        'Pet Food',
-        'Cleaning Products',
-        'Hair Products - Shampoo/Conditioner',
-        'Automotive',
-        'Office Supplies',
-        'Beauty Supplies',
-        'Other Breakfast',
-        'Coffee/Tea',
-    ]
-
     shopping_list_group_data = [
-        'Grocery',
-        'Home Improvement',
+        {
+            'name': 'Grocery',
+            'categories': [
+                'Bakery',
+                'Deli',
+                'Dairy',
+                'Baking Supplies',
+                'Canned Meats',
+                'Snacks-Chips',
+                'Snacks-Pretzels',
+                'Snacks-Cookies',
+                'Snacks-Crackers',
+                'Snacks-Nuts',
+                'Canned Vegetables',
+                'Canned Soup',
+                'Paper Products',
+                'Juice',
+                'Soda',
+                'Pharmacy',
+                'Beverages',
+                'Frozen Treats/Ice Cream',
+                'Frozen Dinners',
+                'Frozen Vegetables',
+                'Frozen Other',
+                'Laundry Supplies',
+                'Meat',
+                'Seafood',
+                'Produce',
+                'Condiments',
+                'Mexican',
+                'Asian',
+                'Italian/Pasta/Sauce',
+                'Cereal',
+                'Bread',
+                'Alcohol',
+                'Floral',
+                'Pet Food',
+                'Cleaning Products',
+                'Hair Products - Shampoo/Conditioner',
+                'Automotive',
+                'Office Supplies',
+                'Beauty Supplies',
+                'Other Breakfast',
+                'Coffee/Tea',
+            ],
+        },
+        {'name': 'Home Improvement', 'categories': ['Tools', 'Hardware', 'Plumbing']},
     ]
 
     shopping_list_data = [
@@ -218,12 +219,94 @@ def run():
                 {'name': 'Salmon', 'plural_name': 'Salmon', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
                 {'name': 'Fresh Shrimp', 'plural_name': 'Fresh Shrimp', 'default_quantity': 1, 'unit_of_measure': 'Pound'},
             ],
+            'Asian': [
+                {'name': 'Soy Sauce', 'plural_name': 'Soy Sauce', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Chili Crisp', 'plural_name': 'Chili Crisp', 'default_quantity': 1, 'unit_of_measure': 'Jar'}
+            ],
             'Mexican': [
                 {'name': 'Taco Shell', 'plural_name': 'Taco Shells', 'default_quantity': 1, 'unit_of_measure': 'Package'},
                 {'name': 'Salsa', 'plural_name': 'Salsa', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
                 {'name': 'Taco Seasoning', 'plural_name': 'Taco Seasoning', 'default_quantity': 1, 'unit_of_measure': 'Package'},
                 {'name': 'Tortillas', 'plural_name': 'Tortillas', 'default_quantity': 1, 'unit_of_measure': 'Package'},
-            ]
+            ],
+            'Frozen Vegetables': [
+                {'name': 'Frozen Spinach', 'plural_name': 'Frozen Spinach', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Frozen Broccoli', 'plural_name': 'Frozen Broccoli', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Frozen Corn', 'plural_name': 'Frozen Corn', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Frozen Green Beans', 'plural_name': 'Frozen Green Beans', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Frozen Peas', 'plural_name': 'Frozen Peas', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Frozen Strawberries', 'plural_name': 'Frozen Strawberries', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Frozen Blueberries', 'plural_name': 'Frozen Blueberries', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Frozen Tater Tots', 'plural_name': 'Frozen Tater Tots', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Frozen French Fries', 'plural_name': 'Frozen French Fries', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+            ],
+            'Baking Supplies': [
+                {'name': 'Vegetable Oil', 'plural_name': 'Vegetable Oil', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Olive Oil', 'plural_name': 'Olive Oil', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Semi-Sweet Chocolate Chips', 'plural_name': 'Semi-Sweet Chocolate Chips', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Dark Chocolate Chips', 'plural_name': 'Dark Chocolate Chips', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Marshmallows', 'plural_name': 'Marshmallows', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Cornbread Mix', 'plural_name': 'Cornbread Mix', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+                {'name': 'Flour', 'plural_name': 'Flour', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Chia Seeds', 'plural_name': 'Chia Seeds', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Flaxseed', 'plural_name': 'Flaxseed', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Baking Soda', 'plural_name': 'Baking Soda', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+                {'name': 'Baking Powder', 'plural_name': 'Baking Powder', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Wheat Flour', 'plural_name': 'Wheat Flour', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Sugar', 'plural_name': 'Sugar', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Confectioners Sugar', 'plural_name': 'Confectioners Sugar', 'default_quantity': 1, 'unit_of_measure': 'Bag'},
+                {'name': 'Cinnamon', 'plural_name': 'Cinnamon', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Salt', 'plural_name': 'Salt', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Ground Pepper', 'plural_name': 'Ground Pepper', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Chili Powder', 'plural_name': 'Chili Powder', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Basil (dried)', 'plural_name': 'Basil (dried)', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Oregano', 'plural_name': 'Oregano', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Nutmeg', 'plural_name': 'Nutmeg', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Ground Ginger', 'plural_name': 'Ground Ginger', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+            ],
+            'Italian/Pasta/Sauce': [
+                {'name': 'Pasta Sauce', 'plural_name': 'Pasta Sauce', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Pizza Sauce', 'plural_name': 'Pizza Sauce', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Spaghetti', 'plural_name': 'Spaghetti', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+                {'name': 'Pasta - Shells', 'plural_name': 'Pasta - Shells', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+                {'name': 'Pasta - Bowtie', 'plural_name': 'Pasta - Bowtie', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+                {'name': 'Pasta - Rotini', 'plural_name': 'Pasta - Rotini', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+                {'name': 'Pasta - Tricolor-Rotini', 'plural_name': 'Pasta - Tricolor-Rotini', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+                {'name': 'Linguini', 'plural_name': 'Linguini', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+                {'name': 'Fettuccine', 'plural_name': 'Fettuccine', 'default_quantity': 1, 'unit_of_measure': 'Box'},
+            ],
+            'Juice': [
+                {'name': 'Tomato Juice', 'plural_name': 'Tomato Juice', 'default_quantity': 1, 'unit_of_measure': 'Bottle'},
+                {'name': 'Cranberry Juice', 'plural_name': 'Cranberry Juice', 'default_quantity': 1, 'unit_of_measure': 'Bottle'},
+            ],
+            'Soda': [
+                {'name': 'Coke', 'plural_name': 'Coke', 'default_quantity': 1, 'unit_of_measure': 'Case'},
+                {'name': 'Diet Coke', 'plural_name': 'Diet Coke', 'default_quantity': 1, 'unit_of_measure': 'Case'},
+                {'name': 'Bottled Water', 'plural_name': 'Bottled Water', 'default_quantity': 1, 'unit_of_measure': 'Bottle'},
+                {'name': 'Seltzer Water', 'plural_name': 'Seltzer Water', 'default_quantity': 1, 'unit_of_measure': 'Bottle'},
+                {'name': 'Sparkling Water', 'plural_name': 'Sparkling Water', 'default_quantity': 1, 'unit_of_measure': 'Bottle'},
+            ],
+            'Frozen Treats/Ice Cream': [
+                {'name': 'Ice Cream', 'plural_name': 'Ice Cream', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+            ],
+            'Canned Meats': [
+                {'name': 'Canned Tuna in Water', 'plural_name': 'Canned Tuna in Water', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Canned Tuna in Oil', 'plural_name': 'Canned Tuna in Oil', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Canned Salmon', 'plural_name': 'Canned Salmon', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+                {'name': 'Salmon Pouch', 'plural_name': 'Salmon Pouch', 'default_quantity': 1, 'unit_of_measure': 'Container'},
+            ],
+            'Condiments': [    
+                {'name': 'Blue Cheese Salad Dressing', 'plural_name': 'Blue Cheese Salad Dressing', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Ranch Salad Dressing', 'plural_name': 'Ranch Salad Dressing', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Balsamic Vinaigrette Salad Dressing', 'plural_name': 'Balsamic Vinaigrette Salad Dressing', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Worcestershire Sauce', 'plural_name': 'Worcestershire Sauce', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Hot sauce', 'plural_name': 'Hot Sauce', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Barbecue Sauce', 'plural_name': 'Barbecue Sauce', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Dijon Mustard', 'plural_name': 'Dijon Mustard', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Brown Mustard', 'plural_name': 'Brown Mustard', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Ketchup', 'plural_name': 'Ketchup', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+                {'name': 'Mayonnaise', 'plural_name': 'Mayonnaise', 'default_quantity': 1, 'unit_of_measure': 'Jar'},
+            ],
         },
         'Home Improvement': {},
     }
@@ -260,70 +343,8 @@ def run():
     # {'name': 'Cream of Mushroom Soup', 'plural_name': 'Cream of Mushroom Soup', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Cream of Chicken Soup', 'plural_name': 'Cream of Chicken Soup', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Vegetable Soup', 'plural_name': 'Vegetable Soup', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Blue Cheese Salad Dressing', 'plural_name': 'Blue Cheese Salad Dressing', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Ranch Salad Dressing', 'plural_name': 'Ranch Salad Dressing', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Balsamic Vinaigrette Salad Dressing', 'plural_name': 'Balsamic Vinaigrette Salad Dressing', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Worcestershire Sauce', 'plural_name': 'Worcestershire Sauce', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Soy Sauce', 'plural_name': 'Soy Sauce', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Apple Juice', 'plural_name': 'Apple Juice', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'White Grape Juice', 'plural_name': 'White Grape Juice', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Grape Juice', 'plural_name': 'Grape Juice', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Tomato Juice', 'plural_name': 'Tomato Juice', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Cranberry Juice', 'plural_name': 'Cranberry Juice', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Coke', 'plural_name': 'Coke', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Diet Coke', 'plural_name': 'Diet Coke', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Bottled Water', 'plural_name': 'Bottled Water', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Seltzer Water', 'plural_name': 'Seltzer Water', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Sparkling Water', 'plural_name': 'Sparkling Water', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Ice Cream', 'plural_name': 'Ice Cream', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Spinach', 'plural_name': 'Frozen Spinach', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Broccoli', 'plural_name': 'Frozen Broccoli', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Corn', 'plural_name': 'Frozen Corn', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Green Beans', 'plural_name': 'Frozen Green Beans', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Peas', 'plural_name': 'Frozen Peas', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Strawberries', 'plural_name': 'Frozen Strawberries', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Blueberries', 'plural_name': 'Frozen Blueberries', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Waffles', 'plural_name': 'Frozen Waffles', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Pancakes', 'plural_name': 'Frozen Pancakes', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen Tater Tots', 'plural_name': 'Frozen Tater Tots', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Frozen French Fries', 'plural_name': 'Frozen French Fries', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Pierogies', 'plural_name': 'Pierogies', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Ketchup', 'plural_name': 'Ketchup', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'BBQ Sauce', 'plural_name': 'BBQ Sauce', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Black Olives', 'plural_name': 'Black Olives', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Vegetable Oil', 'plural_name': 'Vegetable Oil', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Olive Oil', 'plural_name': 'Olive Oil', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Semi-Sweet Chocolate Chips', 'plural_name': 'Semi-Sweet Chocolate Chips', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Dark Chocolate Chips', 'plural_name': 'Dark Chocolate Chips', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Marshmallows', 'plural_name': 'Marshmallows', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Cornbread Mix', 'plural_name': 'Cornbread Mix', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Flour', 'plural_name': 'Flour', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Chia Seeds', 'plural_name': 'Chia Seeds', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Flaxseed', 'plural_name': 'Flaxseed', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Baking Soda', 'plural_name': 'Baking Soda', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Baking Powder', 'plural_name': 'Baking Powder', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Wheat Flour', 'plural_name': 'Wheat Flour', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Sugar', 'plural_name': 'Sugar', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Confectioners Sugar', 'plural_name': 'Confectioners Sugar', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Cinnamon', 'plural_name': 'Cinnamon', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Salt', 'plural_name': 'Salt', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Ground Pepper', 'plural_name': 'Ground Pepper', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Chili Powder', 'plural_name': 'Chili Powder', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Basil (dried)', 'plural_name': 'Basil (dried)', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Oregano', 'plural_name': 'Oregano', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Nutmeg', 'plural_name': 'Nutmeg', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Ground Ginger', 'plural_name': 'Ground Ginger', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Spaghetti Sauce', 'plural_name': 'Spaghetti Sauce', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Pizza Sauce', 'plural_name': 'Pizza Sauce', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Spaghetti', 'plural_name': 'Spaghetti', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Pasta - Shells', 'plural_name': 'Pasta - Shells', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Pasta - Bowtie', 'plural_name': 'Pasta - Bowtie', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Pasta - Rotini', 'plural_name': 'Pasta - Rotini', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Pasta - Tricolor-Rotini', 'plural_name': 'Pasta - Tricolor-Rotini', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Canned Tuna in Water', 'plural_name': 'Canned Tuna in Water', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Canned Tuna in Oil', 'plural_name': 'Canned Tuna in Oil', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Canned Salmon', 'plural_name': 'Canned Salmon', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-    # {'name': 'Salmon Pouch', 'plural_name': 'Salmon Pouch', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Dishwashing Liquid', 'plural_name': 'Dishwashing Liquid', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Dishwashing Detergent', 'plural_name': 'Dishwashing Detergent', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Sponges', 'plural_name': 'Sponges', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
@@ -339,29 +360,50 @@ def run():
     # {'name': 'Steel Wool Pads', 'plural_name': 'Steel Wool Pads', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Paper Towels', 'plural_name': 'Paper Towels', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
     # {'name': 'Toilet Paper', 'plural_name': 'Toilet Paper', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
-
     # {'name': 'Maple Syrup', 'plural_name': 'Maple Syrup', 'default_quantity': 1, 'unit_of_measure': 'Piece'},
+
+    # list customization data
+    list_customization = [
+        {
+            'shopping_list_group': 'Grocery',
+            'list': 'Costco',
+            'category': 'Produce',
+            'name': 'Banana',
+            'customization': {'default_unit_of_measure': 'Case'},
+        },
+        {
+            'shopping_list_group': 'Grocery',
+            'list': 'Kroger',
+            'category': 'Produce',
+            'name': 'Apple',
+            'customization': {'stocked': False},
+        },
+    ]
+
+    # create unit of measure
     for obj in uom_data:
         o, created = UnitOfMeasure.objects.get_or_create(name=obj['name'], plural_name=obj['plural_name'], created_by=user)
         if created:
             logger.info(F"Added: {obj['name']}")
 
-    for obj in category_data:
-        o, created = Category.objects.get_or_create(name=obj, created_by=user)
-        if created:
-            logger.info(F"Added: {obj}")
-
+    # create shopping list groups
     for obj in shopping_list_group_data:
-        o, created = ShoppingListGroup.objects.get_or_create(name=obj, created_by=user)
+        o, created = ShoppingListGroup.objects.get_or_create(name=obj['name'], created_by=user)
         if created:
-            logger.info(F"Added: {obj}")
+            logger.info(F"Added: {obj['name']}")
+        for category in obj['categories']:
+            c, c_created = Category.objects.get_or_create(name=category, shopping_list_group=o, created_by=user)
+            if c_created:
+                logger.info(F"Added: {category}")
 
+    # create shopping lists
     for obj in shopping_list_data:
         slg = ShoppingListGroup.objects.get(name=obj[1])
         o, created = ShoppingList.objects.get_or_create(name=obj[0], list_group=slg, created_by=user)
         if created:
             logger.info(F"Added: {obj[0]}")
 
+    # create items
     for list_group, categories in item_data.items():
         slg = ShoppingListGroup.objects.get(name=list_group)
         for category, cat_items in categories.items():
@@ -378,3 +420,21 @@ def run():
                 )
                 if created:
                     logger.info(F"Added: {item['name']}")
+
+    # create list customazation objects
+    for custom in list_customization:
+        slg = ShoppingListGroup.objects.get(name=custom['shopping_list_group'])
+        s_list = ShoppingList.objects.get(name=custom['list'], list_group=slg)
+        category = Category.objects.get(name=custom['category'], shopping_list_group=slg)
+        item = Item.objects.get(name=custom['name'], list_group=slg, category=category)
+
+        list_customization_obj, created = ListCustomization.objects.get_or_create(
+            shopping_list=s_list, category=category, item=item
+        )
+        for key, value in custom['customization'].items():
+            if key == 'default_unit_of_measure':
+                list_customization_obj.default_unit_of_measure = UnitOfMeasure.objects.get(name=value)
+            else:
+                setattr(list_customization_obj, key, value)
+        list_customization_obj.save()
+        logger.info(F"Customized item {custom['name']}")

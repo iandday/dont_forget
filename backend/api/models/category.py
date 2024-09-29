@@ -2,7 +2,7 @@ import uuid
 from django.conf import settings
 from django.db import models
 from simple_history.models import HistoricalRecords
-
+from .shopping_list_group import ShoppingListGroup
 
 class Category(models.Model):
     class Meta:
@@ -17,7 +17,7 @@ class Category(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(name="name", unique=False, blank=False, null=False)
-
+    shopping_list_group = models.ForeignKey(ShoppingListGroup, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,

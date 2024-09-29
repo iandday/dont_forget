@@ -10,9 +10,7 @@ class ListCustomization(models.Model):
 
     class Meta:
         verbose_name = 'List Customization'
-        constraints = [
-            models.UniqueConstraint(fields=['shopping_list', 'item'], name="item--shopping-list")
-        ]
+        constraints = [models.UniqueConstraint(fields=['shopping_list', 'item'], name="item--shopping-list")]
 
     def __str__(self):
         return str(self.item)
@@ -20,10 +18,10 @@ class ListCustomization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     shopping_list = models.ForeignKey(ShoppingList, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    stocked = models.BooleanField(verbose_name='Stocked Here')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    default_quantity = models.IntegerField(name="Default Quantity", default=1)
-    default_unit_of_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE)
+    stocked = models.BooleanField(verbose_name='Stocked Here', default=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+    default_quantity = models.IntegerField(name="Default Quantity", default=1, blank=True, null=True)
+    default_unit_of_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE, null=True, blank=True)
     purchase_count = models.IntegerField(name="Purchase Count", default=0)
     note = models.TextField(name="notes", null=True, blank=True)
 

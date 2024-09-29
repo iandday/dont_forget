@@ -36,18 +36,18 @@ def create_item(request, payload: Form[ItemCreate], photo: File[UploadedFile] = 
         item.photo.save(F'item-{item.id}.{item.name.split(".")[-1]}', photo)
     return item
 
-@router.put('/{id}', response=ItemOut)
-def update_item(request, payload: Form[ItemUpdate], photo: File[UploadedFile] = None):
-    user = get_user_model().objects.get(id=request.user.id)
-    item = get_object_or_404(Item, id=id, user=user)
-    for attr, value in payload.dict(exclude_unset=True).items():
-       setattr(item, attr, value)
-    item.updated_by = user
-    item.save()
+# @router.put('/{id}', response=ItemOut)
+# def update_item(request, payload: Form[ItemUpdate], photo: File[UploadedFile] = None):
+#     user = get_user_model().objects.get(id=request.user.id)
+#     item = get_object_or_404(Item, id=id, user=user)
+#     for attr, value in payload.dict(exclude_unset=True).items():
+#        setattr(item, attr, value)
+#     item.updated_by = user
+#     item.save()
 
-    if photo:
-        item.photo.save(F'item-{item.id}.{item.name.split(".")[-1]}', photo)
+#     if photo:
+#         item.photo.save(F'item-{item.id}.{item.name.split(".")[-1]}', photo)
     
-    return item
+#     return item
 
 

@@ -17,6 +17,11 @@ class CategoryIn(ModelSchema):
 
 class CategoryOut(ModelSchema):
     class Meta:
-        model=Category
-        fields='__all__'
+        model = Category
+        fields = '__all__'
 
+
+class MinimizedCategorypOut(ModelSchema):
+    class Meta:
+        model = Category
+        fields = ['id', 'name']

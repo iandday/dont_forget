@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from api.models import ListItem
-from api.schemas import ListItemIn, ListItemOut
+from api.schemas import ListItemIn, ListItemOut, ListItemUpdate
 from api.utils.model_utils import set_created_updated_by_on_create, set_updated_by_on_update
 from ninja import Router
 from ninja_crud import viewsets
@@ -26,7 +26,7 @@ class ListItemViewSet(viewsets.APIViewSet):
     update = UpdateView(
         name='list_item_update',
         path='/{id}',
-        request_body=ListItemIn,
+        request_body=ListItemUpdate,
         response_body=ListItemOut,
         pre_save=set_updated_by_on_update,
     )

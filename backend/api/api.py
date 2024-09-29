@@ -6,6 +6,7 @@ from api.views import (
     shopping_list_group_router,
     shopping_list_router,
     uom_router,
+    list_functions_router,
     user_auth_router,
     user_no_auth_router,
     list_customization_router,
@@ -19,13 +20,15 @@ from ninja_jwt.authentication import JWTAuth
 api = NinjaExtraAPI(title='Shopping List API', 
                     description='Endpoints for interacting with the shopping list application', 
                     urls_namespace="api")
-api.add_router("/uom", uom_router, auth=JWTAuth(), tags=["Units of Measure"])
-api.add_router("/category", category_router, auth=JWTAuth(), tags=["Categories"])
+
 api.add_router("/shopping_list_group", shopping_list_group_router, auth=JWTAuth(), tags=["Shopping List Group"])
 api.add_router("/shopping_list", shopping_list_router, auth=JWTAuth(), tags=["Shopping List"])
-api.add_router("/list_customization", list_customization_router, auth=JWTAuth(), tags=["List Customization"])
-api.add_router("/list_item", list_item_router, auth=JWTAuth(), tags=["List Item"])
+api.add_router("/category", category_router, auth=JWTAuth(), tags=["Categories"])
+api.add_router("/uom", uom_router, auth=JWTAuth(), tags=["Units of Measure"])
 api.add_router("/item", item_router, auth=JWTAuth(), tags=["Items"])
+api.add_router('/list_functions', list_functions_router, auth=JWTAuth(), tags=['List Functions'])
+#api.add_router("/list_item", list_item_router, auth=JWTAuth(), tags=["List Item"])
+api.add_router("/list_customization", list_customization_router, auth=JWTAuth(), tags=["List Customization"])
 api.add_router("/users", user_no_auth_router, tags=["Users"])
 api.add_router("/users", user_auth_router, auth=JWTAuth(), tags=["Users"])
 

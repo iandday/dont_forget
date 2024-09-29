@@ -2,7 +2,7 @@ import uuid
 from django.conf import settings
 from django.db import models
 from simple_history.models import HistoricalRecords
-from api.models import Category
+
 
 
 class ShoppingListGroup(models.Model):
@@ -18,7 +18,6 @@ class ShoppingListGroup(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(name="name", unique=True, blank=False, null=False)
-    categories = models.ManyToManyField(Category)
 
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True, null=True)

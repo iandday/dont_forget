@@ -18,5 +18,10 @@ class ShoppingListIn(ModelSchema):
 class ShoppingListOut(ModelSchema):
     class Meta:
         model = ShoppingList
-        fields='__all__'
+        fields = '__all__'
 
+
+class ShoppingListOutMinimized(ModelSchema):
+    class Meta:
+        model = ShoppingList
+        fields = ['id', 'name']

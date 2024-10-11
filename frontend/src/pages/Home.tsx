@@ -1,36 +1,12 @@
-import {
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonText,
-  IonToggle,
-} from "@ionic/react";
-import { useParams } from "react-router";
-import ExploreContainer from "../components/ExploreContainer";
-import "./Page.css";
-import { useEffect, useState } from "react";
-import type { ToggleCustomEvent } from "@ionic/react";
-import Header from "../components/Header";
+import { Typography } from "@mui/material";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
-const Home: React.FC = () => {
+export default function Home() {
+  const { authenticated } = useContext(AuthContext);
   return (
-    <IonPage>
-      <Header title='Home' />
-
-      <IonContent fullscreen>
-        <IonHeader collapse='condense'>
-          <IonToolbar>
-            <IonTitle size='large'>Home</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonText>Home</IonText>
-      </IonContent>
-    </IonPage>
+    <>
+      {authenticated ? <Typography variant='h1'>Home</Typography> : <Typography variant='h1'>nope</Typography>}
+    </>
   );
-};
-
-export default Home;
+}

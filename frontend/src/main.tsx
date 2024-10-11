@@ -1,11 +1,18 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import { ThemeProvider } from "@mui/material/styles";
+import { Box, CssBaseline } from "@mui/material";
+import theme from "./theme";
+import App from "./App";
+import { BrowserRouter, createBrowserRouter, RouterProvider } from "react-router-dom";
+import SideMenu from "./components/SideMenu";
 
-const container = document.getElementById('root');
-const root = createRoot(container!);
-root.render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );

@@ -1,66 +1,67 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonText, IonToggle } from "@ionic/react";
-import { useEffect, useState } from "react";
-import type { ToggleCustomEvent } from "@ionic/react";
-import Header from "../components/Header";
+import * as React from "react";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import { useColorScheme } from "@mui/material/styles";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
 
-const Settings: React.FC = () => {
-  const [paletteToggle, setPaletteToggle] = useState(false);
-  const toggleChange = (ev: ToggleCustomEvent) => {
-    toggleDarkPalette(ev.detail.checked);
-  };
-
-  // Add or remove the "ion-palette-dark" class on the html element
-  const toggleDarkPalette = (shouldAdd: boolean) => {
-    document.documentElement.classList.toggle("ion-palette-dark", shouldAdd);
-  };
-
-  // Check/uncheck the toggle and update the palette based on isDark
-  const initializeDarkPalette = (isDark: boolean) => {
-    setPaletteToggle(isDark);
-    toggleDarkPalette(isDark);
-  };
-
-  useEffect(() => {
-    // Use matchMedia to check the user preference
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-    // Initialize the dark palette based on the initial
-    // value of the prefers-color-scheme media query
-    initializeDarkPalette(prefersDark.matches);
-
-    const setDarkPaletteFromMediaQuery = (mediaQuery: MediaQueryListEvent) => {
-      initializeDarkPalette(mediaQuery.matches);
-    };
-
-    // Listen for changes to the prefers-color-scheme media query
-    prefersDark.addEventListener("change", setDarkPaletteFromMediaQuery);
-
-    return () => {
-      prefersDark.removeEventListener("change", setDarkPaletteFromMediaQuery);
-    };
-  }, []);
+export default function Settings() {
+  const { mode, setMode } = useColorScheme();
 
   return (
-    <IonPage>
-      <Header title='Settings' />
-
-      <IonContent fullscreen>
-        <IonHeader collapse='condense'>
-          <IonToolbar>
-            <IonTitle size='large'>Settings</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonText>Settings</IonText>
-        <IonToggle
-          checked={paletteToggle}
-          onIonChange={toggleChange}
-          justify='space-between'
+    <Container maxWidth='sm'>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+          bgcolor: "background.default",
+          color: "text.primary",
+          borderRadius: 1,
+          p: 3,
+          minHeight: "56px",
+        }}
+      >
+        <FormControl>
+          <FormLabel id='demo-theme-toggle'>Theme</FormLabel>
+          <RadioGroup
+            aria-labelledby='demo-theme-toggle'
+            name='theme-toggle'
+            row
+            value={mode}
+            onChange={(event) => setMode(event.target.value as "system" | "light" | "dark")}
+          >
+            <FormControlLabel
+              value='system'
+              control={<Radio />}
+              label='System'
+            />
+            <FormControlLabel
+              value='light'
+              control={<Radio />}
+              label='Light'
+            />
+            <FormControlLabel
+              value='dark'
+              control={<Radio />}
+              label='Dark'
+            />
+          </RadioGroup>
+        </FormControl>
+        <Typography
+          variant='h4'
+          component='div'
+          sx={{ flexGrow: 1 }}
         >
-          Dark Mode
-        </IonToggle>
-      </IonContent>
-    </IonPage>
+          Hello
+        </Typography>
+      </Box>
+    </Container>
   );
-};
-
-export default Settings;
+}

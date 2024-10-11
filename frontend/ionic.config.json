@@ -1,7 +1,0 @@
-{
-  "name": " Dont Forget",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react-vite"
-}

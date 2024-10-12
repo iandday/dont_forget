@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SecureStorage from "react-secure-storage";
 
-const useSecureStorage = (key: string, initialValue: string) => {
-  const [value, setValue] = useState(() => {
+const useSecureStorage = <T>(key: string, initialValue: string): [T, (value: T) => void] => {
+  const [value, setValue] = useState<T>(() => {
     try {
       const storedValue = SecureStorage.getItem(key)?.toString();
       return storedValue ? JSON.parse(storedValue) : initialValue;
@@ -24,7 +24,12 @@ const useSecureStorage = (key: string, initialValue: string) => {
     }
   }, [key, value]);
 
-  return [value, setValue];
+  const updateValue = (newData: T) => {
+    console.log("updating value", newData);
+    setValue(newData);
+  };
+
+  return [value, updateValue];
 };
 
 export default useSecureStorage;

@@ -6,12 +6,12 @@ import SideMenu from "../components/SideMenu";
 import { AuthContext } from "../context/AuthContext";
 
 export const Layout = () => {
-  const { authenticated, login } = React.useContext(AuthContext);
+  const { user, login } = React.useContext(AuthContext);
 
   return (
     <Box sx={{ display: "flex" }}>
       <SideMenu />
-      {authenticated ? <Outlet /> : <Navigate to='/login' />}
+      <Outlet />
     </Box>
   );
 };

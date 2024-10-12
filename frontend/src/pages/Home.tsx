@@ -1,12 +1,17 @@
 import { Typography } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
-import { useContext } from "react";
 
+import { useContext } from "react";
 export default function Home() {
-  const { authenticated } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
   return (
     <>
-      {authenticated ? <Typography variant='h1'>Home</Typography> : <Typography variant='h1'>nope</Typography>}
+      <Typography variant='h4'>Home</Typography>
+      {user?.token ? (
+        <Typography variant='h4'>{user?.lastName}</Typography>
+      ) : (
+        <Typography variant='h4'>nope</Typography>
+      )}
     </>
   );
 }

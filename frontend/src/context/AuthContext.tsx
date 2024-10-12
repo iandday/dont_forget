@@ -1,68 +1,60 @@
-import { createContext, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
+import useSecureStorage from "../hooks/useSecureStorage";
 
-// Define the authentication context
-// interface AuthContextType {
-//   isAuthenticated: boolean;
-//   login: () => void;
-//   logout: () => void;
-// }
-
-// const AuthContext = createContext<AuthContextType | null>(null);
-
-// // Authentication provider component
-// const AuthProvider: React.FC = ({ children }) => {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-//   const login = () => {
-//     // Perform login logic here (e.g., API call)
-//     setIsAuthenticated(true);
-//   };
-
-//   const logout = () => {
-//     // Perform logout logic here
-//     setIsAuthenticated(false);
-//   };
-
-//   return <AuthContext.Provider value={{ isAuthenticated, login, logout }}>{children}</AuthContext.Provider>;
-// };
-
-// export { AuthContext, AuthProvider };
 type Props = {
   children?: ReactNode;
 };
 
-type IAuthContext = {
-  authenticated: boolean;
-  //setAuthenticated: (newState: boolean) => void;
-  login: () => void;
+interface AuthContextUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  token: string;
+  refreshToken: string;
+}
+
+interface IAuthContext {
+  //authenticated: boolean;
+  user: AuthContextUser | null;
+  login: ({ firstName, lastName, email, token, refreshToken }: AuthContextUser) => void;
   logout: () => void;
+}
+
+const initialUser = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  token: "",
+  refreshToken: "",
 };
 
 const initialValue = {
-  authenticated: false,
-  setAuthenticated: () => {},
-  login: () => {},
+  //authenticated: false,
+  user: initialUser,
+  login: ({ firstName, lastName, email, token, refreshToken }: AuthContextUser) => {},
   logout: () => {},
 };
 
 const AuthContext = createContext<IAuthContext>(initialValue);
 
 const AuthProvider = ({ children }: Props) => {
-  //Initializing an auth state with false value (unauthenticated)
-  const [authenticated, setAuthenticated] = useState(initialValue.authenticated);
+  const [user, setUser] = useSecureStorage<AuthContextUser | null>("user", "");
 
-  // const navigate = useNavigate();
-  const login = () => {
-    // Perform login logic here (e.g., API call)
-    setAuthenticated(true);
+  const login = ({ firstName, lastName, email, token, refreshToken }: AuthContextUser) => {
+    setUser({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      token: token,
+      refreshToken: refreshToken,
+    });
   };
 
   const logout = () => {
-    // Perform logout logic here
-    setAuthenticated(false);
+    setUser(null);
   };
 
-  return <AuthContext.Provider value={{ authenticated, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 export { AuthContext, AuthProvider };

@@ -14,7 +14,6 @@ import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { useApiViewsUserNewToken } from "../providers/api/endpoints/users/users";
 import { AuthContext } from "../context/AuthContext";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -60,7 +59,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const { login } = React.useContext(AuthContext);
+  const { user, login } = React.useContext(AuthContext);
   const navigate = useNavigate();
   //const { login } = useAuth();
 
@@ -87,8 +86,16 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     }
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data.get("email"));
-    login();
+    const email = data.get("email");
+    if (data.get("email")) {
+      login({
+        firstName: "bob",
+        lastName: "smith",
+        email: email as string,
+        token: "sdf",
+        refreshToken: "sdfsdf",
+      });
+    }
     navigate("/");
     // loginMutate(
     //   {

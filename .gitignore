@@ -1,6 +1,7 @@
 .env
 persist/
 
+frontend1/
 frontend2/
 frontend3/
 

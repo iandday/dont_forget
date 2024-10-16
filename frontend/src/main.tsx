@@ -1,19 +1,16 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import { ThemeProvider } from "@mui/material/styles";
-import { Box, CssBaseline } from "@mui/material";
-import theme from "./theme";
-import App from "./App";
-import { BrowserRouter, createBrowserRouter, RouterProvider } from "react-router-dom";
-import SideMenu from "./components/SideMenu";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { RouterProvider } from 'react-router-dom'
+import { Toaster } from '@/components/ui/toaster'
+import { ThemeProvider } from '@/components/theme-provider'
+import router from '@/router'
+import '@/index.css'
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+    <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+      <RouterProvider router={router} />
+      <Toaster />
     </ThemeProvider>
   </React.StrictMode>
-);
+)

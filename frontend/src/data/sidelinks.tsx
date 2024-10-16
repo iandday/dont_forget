@@ -44,83 +44,39 @@ export const sidelinks: SideLink[] = [
     icon: <IconLayoutDashboard size={18} />,
   },
   {
-    title: 'Tasks',
-    label: '3',
-    href: '/tasks',
-    icon: <IconChecklist size={18} />,
-  },
-  {
-    title: 'Chats',
-    label: '9',
-    href: '/chats',
-    icon: <IconMessages size={18} />,
-  },
-  {
-    title: 'Apps',
-    label: '',
-    href: '/apps',
-    icon: <IconApps size={18} />,
-  },
-  {
-    title: 'Authentication',
-    label: '',
-    href: '',
-    icon: <IconUserShield size={18} />,
-    sub: [
-      {
-        title: 'Sign In (email + password)',
-        label: '',
-        href: '/sign-in',
-        icon: <IconHexagonNumber1 size={18} />,
-      },
-      {
-        title: 'Sign In (Box)',
-        label: '',
-        href: '/sign-in-2',
-        icon: <IconHexagonNumber2 size={18} />,
-      },
-      {
-        title: 'Sign Up',
-        label: '',
-        href: '/sign-up',
-        icon: <IconHexagonNumber3 size={18} />,
-      },
-      {
-        title: 'Forgot Password',
-        label: '',
-        href: '/forgot-password',
-        icon: <IconHexagonNumber4 size={18} />,
-      },
-      {
-        title: 'OTP',
-        label: '',
-        href: '/otp',
-        icon: <IconHexagonNumber5 size={18} />,
-      },
-    ],
-  },
-  {
     title: 'Users',
     label: '',
     href: '/users',
     icon: <IconUsers size={18} />,
   },
   {
-    title: 'Requests',
+    title: 'Manage Data',
     label: '10',
-    href: '/requests',
+    href: '/data',
     icon: <IconRouteAltLeft size={18} />,
     sub: [
       {
-        title: 'Trucks',
+        title: 'Listgroups',
         label: '9',
         href: '/trucks',
         icon: <IconTruck size={18} />,
       },
       {
-        title: 'Cargos',
+        title: 'Categories',
         label: '',
-        href: '/cargos',
+        href: '/categories',
+        icon: <IconBoxSeam size={18} />,
+      },
+      {
+        title: 'Items',
+        label: '',
+        href: '/items',
+        icon: <IconBoxSeam size={18} />,
+      },
+      {
+        title: 'Units of Measure',
+        label: '',
+        href: '/uom',
         icon: <IconBoxSeam size={18} />,
       },
     ],
@@ -131,12 +87,7 @@ export const sidelinks: SideLink[] = [
   //   href: '/analysis',
   //   icon: <IconChartHistogram size={18} />,
   // },
-  {
-    title: 'Extra Components',
-    label: '',
-    href: '/extra-components',
-    icon: <IconComponents size={18} />,
-  },
+
   // {
   //   title: 'Error Pages',
   //   label: '',
@@ -174,5 +125,23 @@ export const sidelinks: SideLink[] = [
     label: '',
     href: '/settings',
     icon: <IconSettings size={18} />,
+  },
+  {
+    title: 'Sign In (email + password)',
+    label: '',
+    href: '/sign-in',
+    icon: <IconHexagonNumber1 size={18} />,
+  },
+  {
+    title: 'Sign Up',
+    label: '',
+    href: '/sign-up',
+    icon: <IconHexagonNumber3 size={18} />,
+  },
+  {
+    title: 'Forgot Password',
+    label: '',
+    href: '/forgot-password',
+    icon: <IconHexagonNumber4 size={18} />,
   },
 ]

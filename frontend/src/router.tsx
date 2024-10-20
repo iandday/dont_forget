@@ -1,31 +1,21 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+
 import GeneralError from './pages/errors/general-error.tsx'
 import NotFoundError from './pages/errors/not-found-error.tsx'
 import MaintenanceError from './pages/errors/maintenance-error.tsx'
 import UnauthorisedError from './pages/errors/unauthorised-error.tsx'
+import { AuthContext } from './context/AuthContext'
+import * as React from 'react'
+import Settings from './pages/settings/index.tsx'
+
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { user, login } = React.useContext(AuthContext)
+  return user?.token ? <>{children}</> : <Navigate to='/sign-in' />
+}
 
 const router = createBrowserRouter([
-  // Auth routes
-  {
-    path: '/sign-in',
-    lazy: async () => ({
-      Component: (await import('./pages/auth/sign-in.tsx')).default,
-    }),
-  },
-
-  {
-    path: '/sign-up',
-    lazy: async () => ({
-      Component: (await import('./pages/auth/sign-up.tsx')).default,
-    }),
-  },
-  {
-    path: '/forgot-password',
-    lazy: async () => ({
-      Component: (await import('./pages/auth/forgot-password.tsx')).default,
-    }),
-  },
-
   // Main routes
   {
     path: '/',
@@ -35,6 +25,42 @@ const router = createBrowserRouter([
     },
     errorElement: <GeneralError />,
     children: [
+      {
+        path: '/sign-in',
+        lazy: async () => ({
+          Component: (await import('./pages/auth/sign-in.tsx')).default,
+        }),
+      },
+      {
+        path: '/sign-out',
+        lazy: async () => ({
+          Component: (await import('./pages/auth/sign-out.tsx')).default,
+        }),
+      },
+      {
+        path: '/sign-up',
+        lazy: async () => ({
+          Component: (await import('./pages/auth/sign-up.tsx')).default,
+        }),
+      },
+      {
+        path: '/forgot-password',
+        lazy: async () => ({
+          Component: (await import('./pages/auth/forgot-password.tsx')).default,
+        }),
+      },
+      {
+        path: 'terms',
+        lazy: async () => ({
+          Component: (await import('@/components/coming-soon')).default,
+        }),
+      },
+      {
+        path: 'privacy',
+        lazy: async () => ({
+          Component: (await import('@/components/coming-soon')).default,
+        }),
+      },
       {
         index: true,
         lazy: async () => ({
@@ -56,9 +82,10 @@ const router = createBrowserRouter([
 
       {
         path: 'settings',
-        lazy: async () => ({
-          Component: (await import('./pages/settings/index.tsx')).default,
-        }),
+        element: <ProtectedRoute>{<Settings />}</ProtectedRoute>,
+        // lazy: async () => ({
+        //   Component: (await import('./pages/settings/index.tsx')).default,
+        // }),
         errorElement: <GeneralError />,
         children: [
           {

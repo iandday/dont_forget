@@ -6,9 +6,14 @@ import useIsCollapsed from '@/hooks/use-is-collapsed'
 import ThemeSwitch from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
 import { IconShoppingCart } from '@tabler/icons-react'
+import { AuthContext } from '../../context/AuthContext'
+import React from 'react'
 
-export default function SignIn() {
+export default function SignOut() {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
+  const { logout } = React.useContext(AuthContext)
+
+  logout()
   return (
     <Layout fixed>
       {/* ===== Top Heading ===== */}

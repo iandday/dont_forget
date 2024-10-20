@@ -23,6 +23,10 @@ import {
   IconUserShield,
   IconUsers,
   IconLock,
+  IconLogin,
+  IconLogin2,
+  IconUserSquare,
+  IconKeyOff,
 } from '@tabler/icons-react'
 
 export interface NavLink {
@@ -127,21 +131,21 @@ export const sidelinks: SideLink[] = [
     icon: <IconSettings size={18} />,
   },
   {
-    title: 'Sign In (email + password)',
+    title: 'Sign In',
     label: '',
     href: '/sign-in',
-    icon: <IconHexagonNumber1 size={18} />,
+    icon: <IconLogin2 size={18} />,
   },
   {
     title: 'Sign Up',
     label: '',
     href: '/sign-up',
-    icon: <IconHexagonNumber3 size={18} />,
+    icon: <IconUserSquare size={18} />,
   },
   {
     title: 'Forgot Password',
     label: '',
     href: '/forgot-password',
-    icon: <IconHexagonNumber4 size={18} />,
+    icon: <IconKeyOff size={18} />,
   },
 ]

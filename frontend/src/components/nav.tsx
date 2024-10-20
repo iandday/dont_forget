@@ -1,5 +1,9 @@
-import { Link } from 'react-router-dom'
-import { IconChevronDown } from '@tabler/icons-react'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+  IconChevronDown,
+  IconChevronsLeft,
+  IconLogout,
+} from '@tabler/icons-react'
 import { Button, buttonVariants } from './custom/button'
 import {
   Collapsible,
@@ -23,6 +27,8 @@ import {
 import { cn } from '@/lib/utils'
 import useCheckActiveNav from '@/hooks/use-check-active-nav'
 import { SideLink } from '@/data/sidelinks'
+import { AuthContext } from '../context/AuthContext'
+import React from 'react'
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean
@@ -36,8 +42,11 @@ export default function Nav({
   className,
   closeNav,
 }: NavProps) {
+  const { user, login, logout } = React.useContext(AuthContext)
+  const navigate = useNavigate()
   const renderLink = ({ sub, ...rest }: SideLink) => {
     const key = `${rest.title}-${rest.href}`
+
     if (isCollapsed && sub)
       return (
         <NavLinkIconDropdown
@@ -58,6 +67,7 @@ export default function Nav({
 
     return <NavLink {...rest} key={key} closeNav={closeNav} />
   }
+
   return (
     <div
       data-collapsed={isCollapsed}
@@ -68,7 +78,22 @@ export default function Nav({
     >
       <TooltipProvider delayDuration={0}>
         <nav className='grid gap-1 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2'>
-          {links.map(renderLink)}
+          {links.map((l) => {
+            if (user?.token) {
+              if (!['Sign In', 'Sign Up', 'Forgot Password'].includes(l.title))
+                return renderLink(l)
+            } else {
+              if (['Sign In', 'Sign Up', 'Forgot Password'].includes(l.title))
+                return renderLink(l)
+            }
+          })}
+          {user?.token &&
+            renderLink({
+              title: 'Logout',
+              label: '',
+              href: '/sign-out',
+              icon: <IconLogout size={18} />,
+            })}
         </nav>
       </TooltipProvider>
     </div>

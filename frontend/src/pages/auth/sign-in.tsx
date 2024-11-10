@@ -6,9 +6,58 @@ import useIsCollapsed from '@/hooks/use-is-collapsed'
 import ThemeSwitch from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
 import { IconShoppingCart } from '@tabler/icons-react'
+import React, { useState } from 'react'
+import { Button } from '@/components/custom/button'
+import {
+  Credenza,
+  CredenzaBody,
+  CredenzaClose,
+  CredenzaContent,
+  CredenzaDescription,
+  CredenzaFooter,
+  CredenzaHeader,
+  CredenzaTitle,
+  CredenzaTrigger,
+} from '@/components/credenza'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
+import useLocalStorage from '@/hooks/use-local-storage'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { Input } from '@/components/ui/input'
+
+const formSchema = z.object({
+  url: z.string().min(1, { message: "Please enter your backend server's URL" }),
+})
 
 export default function SignIn() {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
+  const [isLoading, setIsLoading] = useState(false)
+  const [baseUrl, setBaseUrl] = useLocalStorage<string>({
+    key: 'base_url',
+    defaultValue: '',
+  })
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      url: '',
+    },
+  })
+
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    setIsLoading(true)
+    setBaseUrl(data.url)
+    setIsLoading(false)
+  }
+
   return (
     <Layout fixed>
       {/* ===== Top Heading ===== */}
@@ -59,6 +108,54 @@ export default function SignIn() {
                 .
               </p>
             </Card>
+            <Credenza open={!baseUrl ? true : false}>
+              <CredenzaContent>
+                <CredenzaHeader>
+                  <CredenzaTitle>Set Base URL</CredenzaTitle>
+                  <CredenzaDescription>
+                    Configure your backend's URL.
+                  </CredenzaDescription>
+                </CredenzaHeader>
+                <CredenzaBody>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                      <div className='grid gap-2'>
+                        <FormField
+                          control={form.control}
+                          name='url'
+                          render={({ field }) => (
+                            <FormItem className='space-y-1'>
+                              <FormLabel>URL</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder='https://dontforget.domain.com'
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <Button className='mt-2' loading={isLoading}>
+                          Save
+                        </Button>
+
+                        <div className='relative my-2'>
+                          <div className='absolute inset-0 flex items-center'>
+                            <span className='w-full border-t' />
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </Form>
+                </CredenzaBody>
+                <CredenzaFooter>
+                  <CredenzaClose asChild>
+                    <Button>Close</Button>
+                  </CredenzaClose>
+                </CredenzaFooter>
+              </CredenzaContent>
+            </Credenza>
           </div>
         </div>
       </Layout.Body>

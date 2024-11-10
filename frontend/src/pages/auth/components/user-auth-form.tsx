@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
 import {
   Form,
   FormControl,
@@ -18,6 +17,7 @@ import { PasswordInput } from '@/components/custom/password-input'
 import { cn } from '@/lib/utils'
 import { AuthContext } from '../../../context/AuthContext'
 import React from 'react'
+import { useApiViewsUserNewToken } from '@/lib/api'
 
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -31,15 +31,52 @@ const formSchema = z.object({
     .min(1, {
       message: 'Please enter your password',
     })
-    .min(7, {
-      message: 'Password must be at least 7 characters long',
+    .min(2, {
+      message: 'Password must be at least 2 characters long',
     }),
 })
 
+function onSubmit(data: z.infer<typeof formSchema>) {
+  setIsLoading(true)
+
+  loginMutate(
+    {
+      data: {
+        email: data.email,
+        password: data.password,
+      },
+    },
+    {
+      onSuccess(data) {
+        loginMutateReset()
+        if (loginMutateIsSuccess) {
+          login({
+            firstName: data.user.first_name,
+            lastName: data.user.last_name,
+            email: data.user.email,
+            token: data.access,
+            refreshToken: data.refresh,
+          })
+        }
+        navigate('/')
+      },
+      onError: (err) => {
+        console.log(err)
+      },
+    }
+  )
+}
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { login } = React.useContext(AuthContext)
   const navigate = useNavigate()
+  const {
+    mutate: loginMutate,
+    isSuccess: loginMutateIsSuccess,
+    error: loginMutateError,
+    reset: loginMutateReset,
+    data: loginData,
+  } = useApiViewsUserNewToken()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,19 +88,33 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    console.log(data)
-    login({
-      firstName: 'bob',
-      lastName: 'smith',
-      email: data.email,
-      token: 'token',
-      refreshToken: 'rtoken',
-    })
-    setIsLoading(false)
-    navigate('/')
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+
+    loginMutate(
+      {
+        data: {
+          email: data.email,
+          password: data.password,
+        },
+      },
+      {
+        onSuccess(data) {
+          loginMutateReset()
+          if (loginMutateIsSuccess) {
+            login({
+              firstName: data.user.first_name,
+              lastName: data.user.last_name,
+              email: data.user.email,
+              token: data.access,
+              refreshToken: data.refresh,
+            })
+          }
+          navigate('/')
+        },
+        onError: (err) => {
+          console.log(err)
+        },
+      }
+    )
   }
 
   return (

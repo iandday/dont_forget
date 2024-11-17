@@ -1,7 +1,5 @@
 import axios from 'axios'
 import Axios, { AxiosError, AxiosRequestConfig } from 'axios'
-
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../../../store/user-store'
 
@@ -9,8 +7,7 @@ const AXIOS_INSTANCE = Axios.create({ baseURL: '' })
 AXIOS_INSTANCE.interceptors.request.use(
   async (config) => {
     const token = useUserStore.getState().user?.accessToken
-    const baseUrl = localStorage.getItem('base_url')
-
+    const baseUrl = JSON.parse(localStorage.getItem('base_url'))
     config.baseURL = baseUrl ? baseUrl : ''
 
     if (token) {
@@ -27,16 +24,9 @@ AXIOS_INSTANCE.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config
-
-    const { user, login, logout } = React.useContext(AuthContext)
     const navigate = useNavigate()
-    //const router = useIonRouter()
-    // If the error status is 401 and there is no originalRequest._retry flag,
-    // if (error.response.status === 401) {
-    //   console.log('In');
+    const { setCredentials, removeCredentials } = useUserStore()
 
-    // }
-    // it means the token has expired and we need to refresh it
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
 
@@ -50,27 +40,21 @@ AXIOS_INSTANCE.interceptors.response.use(
               refresh: refreshToken,
             })
             const { access, refresh } = response.data
-            login({
-              token: access,
-              refreshToken: refresh,
-              firstName: token.first_name,
-              lastName: token.last_name,
-              email: token.email,
-            })
+            setCredentials({ accessToken: access, refreshToken: refresh })
+
             // Retry the original request with the new token
             originalRequest.headers.Authorization = `Bearer ${access}`
             return axios(originalRequest)
           } catch (error) {
-            console.log('failed to get new tokens')
-            console.log(error!.response!.status)
+            removeCredentials()
             navigate('/login')
           }
         } else {
+          removeCredentials()
           navigate('/login')
         }
       } catch (error) {
-        console.log('refresh failed')
-        logout()
+        removeCredentials()
         navigate('/login')
       }
     }
@@ -84,9 +68,9 @@ export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
     ({ data }) => data
   )
 
-  // @ts-ignore
+  // @ts-expect-error cancel is not a function on the promise
   promise.cancel = () => {
-    source.cancel('Query was cancelled by Vue Query')
+    source.cancel('Query was cancelled by React Query')
   }
 
   return promise

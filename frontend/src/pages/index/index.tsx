@@ -32,9 +32,7 @@ export default function Dashboard() {
       {/* ===== Main ===== */}
       <Layout.Body>
         <div className='mb-2 flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight'>Dashboard</h1>
-          <h1>Access: {accessToken}</h1>
-          <h1>Refresh: {refreshToken}</h1>
+          <h1 className='text-2xl font-bold tracking-tight'>Main Page</h1>
         </div>
       </Layout.Body>
     </Layout>

@@ -1,5 +1,5 @@
 import { HTMLAttributes, useState } from 'react'
-import useForm from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -68,20 +68,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       },
       {
         onSuccess(data) {
+          console.log(data)
           loginMutateReset()
 
           setCredentials({
             accessToken: data.access,
             refreshToken: data.refresh,
           })
-
-          // login({
-          //   firstName: data.user.first_name,
-          //   lastName: data.user.last_name,
-          //   email: data.user.email,
-          //   token: d,
-          //   refreshToken: data.refresh,
-          // })
 
           navigate('/')
         },

@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils'
 import { AuthContext } from '../../../context/AuthContext'
 import React from 'react'
 import { useApiViewsUserNewToken } from '@/lib/api'
+import { useUserStore } from '../../../store/user-store'
 
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -36,39 +37,10 @@ const formSchema = z.object({
     }),
 })
 
-function onSubmit(data: z.infer<typeof formSchema>) {
-  setIsLoading(true)
-
-  loginMutate(
-    {
-      data: {
-        email: data.email,
-        password: data.password,
-      },
-    },
-    {
-      onSuccess(data) {
-        loginMutateReset()
-        if (loginMutateIsSuccess) {
-          login({
-            firstName: data.user.first_name,
-            lastName: data.user.last_name,
-            email: data.user.email,
-            token: data.access,
-            refreshToken: data.refresh,
-          })
-        }
-        navigate('/')
-      },
-      onError: (err) => {
-        console.log(err)
-      },
-    }
-  )
-}
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const { login } = React.useContext(AuthContext)
+  const { setCredentials } = useUserStore()
+
   const navigate = useNavigate()
   const {
     mutate: loginMutate,
@@ -86,7 +58,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     setIsLoading(true)
 
     loginMutate(
@@ -99,18 +71,24 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       {
         onSuccess(data) {
           loginMutateReset()
-          if (loginMutateIsSuccess) {
-            login({
-              firstName: data.user.first_name,
-              lastName: data.user.last_name,
-              email: data.user.email,
-              token: data.access,
-              refreshToken: data.refresh,
-            })
-          }
+
+          setCredentials({
+            accessToken: data.access,
+            refreshToken: data.refresh,
+          })
+
+          // login({
+          //   firstName: data.user.first_name,
+          //   lastName: data.user.last_name,
+          //   email: data.user.email,
+          //   token: d,
+          //   refreshToken: data.refresh,
+          // })
+
           navigate('/')
         },
         onError: (err) => {
+          console.log('ERROR')
           console.log(err)
         },
       }

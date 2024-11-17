@@ -1,22 +1,28 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 
-interface LocalStorageProps<T> {
-  key: string
-  defaultValue: T
+function getInitialValue(key, defaultValue, convertFromString) {
+  const localStorageValue = localStorage.getItem(key)
+  if (localStorageValue) {
+    try {
+      return convertFromString(localStorageValue)
+    } catch {
+      localStorage.removeItem(key)
+    }
+  }
+  return typeof defaultValue === 'function' ? defaultValue() : defaultValue
 }
-
-export default function useLocalStorage<T>({
-  key,
-  defaultValue,
-}: LocalStorageProps<T>) {
-  const [value, setValue] = useState<T>(() => {
-    const storedValue = localStorage.getItem(key)
-    return storedValue !== null ? (JSON.parse(storedValue) as T) : defaultValue
-  })
+export default function useLocalStorageState(
+  key: string,
+  defaultValue = '',
+  { convertToString = JSON.stringify, convertFromString = JSON.parse } = {}
+) {
+  const [state, setState] = useState(() =>
+    getInitialValue(key, defaultValue, convertFromString)
+  )
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value))
-  }, [value, key])
+    localStorage.setItem(key, convertToString(state))
+  }, [key, state, convertToString])
 
-  return [value, setValue] as const
+  return [state, setState]
 }

@@ -1,18 +1,18 @@
 import axios from 'axios'
 import Axios, { AxiosError, AxiosRequestConfig } from 'axios'
-import { AuthContext, AuthProvider } from '../../../context/AuthContext'
+
 import React from 'react'
-import useLocalStorage from '@/hooks/use-local-storage'
 import { useNavigate } from 'react-router-dom'
+import { useUserStore } from '../../../store/user-store'
 
 const AXIOS_INSTANCE = Axios.create({ baseURL: '' })
 AXIOS_INSTANCE.interceptors.request.use(
   async (config) => {
-    const { user } = React.useContext(AuthContext)
+    const token = useUserStore.getState().user?.accessToken
     const baseUrl = localStorage.getItem('base_url')
 
     config.baseURL = baseUrl ? baseUrl : ''
-    const token = user?.token
+
     if (token) {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
@@ -42,32 +42,27 @@ AXIOS_INSTANCE.interceptors.response.use(
 
       try {
         const baseUrl = localStorage.getItem('base_url')
-        const tokenString = user?.token
+        const refreshToken = useUserStore.getState().user?.refreshToken
 
-        if (tokenString !== undefined) {
-          const token = JSON.parse(tokenString)
-          if (token.refresh) {
-            try {
-              const response = await axios.post(`${baseUrl}/api/user/refresh`, {
-                refresh: token?.refresh,
-              })
-              const { access, refresh } = response.data
-              login({
-                token: access,
-                refreshToken: refresh,
-                firstName: token.first_name,
-                lastName: token.last_name,
-                email: token.email,
-              })
-              // Retry the original request with the new token
-              originalRequest.headers.Authorization = `Bearer ${access}`
-              return axios(originalRequest)
-            } catch (error) {
-              console.log('failed to get new tokens')
-              console.log(error!.response!.status)
-              navigate('/login')
-            }
-          } else {
+        if (refreshToken) {
+          try {
+            const response = await axios.post(`${baseUrl}/api/user/refresh`, {
+              refresh: refreshToken,
+            })
+            const { access, refresh } = response.data
+            login({
+              token: access,
+              refreshToken: refresh,
+              firstName: token.first_name,
+              lastName: token.last_name,
+              email: token.email,
+            })
+            // Retry the original request with the new token
+            originalRequest.headers.Authorization = `Bearer ${access}`
+            return axios(originalRequest)
+          } catch (error) {
+            console.log('failed to get new tokens')
+            console.log(error!.response!.status)
             navigate('/login')
           }
         } else {

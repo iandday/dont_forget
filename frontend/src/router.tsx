@@ -4,15 +4,15 @@ import GeneralError from './pages/errors/general-error.tsx'
 import NotFoundError from './pages/errors/not-found-error.tsx'
 import MaintenanceError from './pages/errors/maintenance-error.tsx'
 import UnauthorisedError from './pages/errors/unauthorised-error.tsx'
-import { AuthContext } from './context/AuthContext'
+import { useUserStore } from './store/user-store.ts'
 import * as React from 'react'
 import Settings from './pages/settings/index.tsx'
-
+import Index from './pages/index/index.tsx'
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { user, login } = React.useContext(AuthContext)
-  return user?.token ? <>{children}</> : <Navigate to='/sign-in' />
+  const token = useUserStore.getState().user?.accessToken
+  return token ? <>{children}</> : <Navigate to='/sign-in' />
 }
 
 const router = createBrowserRouter([
@@ -63,9 +63,10 @@ const router = createBrowserRouter([
       },
       {
         index: true,
-        lazy: async () => ({
-          Component: (await import('./pages/dashboard/index.tsx')).default,
-        }),
+        element: <ProtectedRoute>{<Index />}</ProtectedRoute>,
+        // lazy: async () => ({
+        //   Component: (await import('./pages/index/index.tsx')).default,
+        // }),
       },
       {
         path: 'users',

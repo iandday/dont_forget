@@ -40,11 +40,13 @@ const formSchema = z.object({
 export default function SignIn() {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
   const [isLoading, setIsLoading] = useState(false)
-  const [baseUrl, setBaseUrl] = useLocalStorage<string>({
+  const [showModal, setShowModal] = useState(false)
+  const [baseUrl, setBaseUrl] = useLocalStorage<string | null>({
     key: 'base_url',
     defaultValue: '',
   })
 
+  //setShowModal(baseUrl ? false : true)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,7 +57,9 @@ export default function SignIn() {
   function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
     setBaseUrl(data.url)
+    console.log(data.url)
     setIsLoading(false)
+    setShowModal(false)
   }
 
   return (
@@ -91,24 +95,16 @@ export default function SignIn() {
               </div>
               <UserAuthForm />
               <p className='mt-4 px-8 text-center text-sm text-muted-foreground'>
-                By clicking login, you agree to our{' '}
-                <a
-                  href='/terms'
-                  className='underline underline-offset-4 hover:text-primary'
+                <Button
+                  className='mt-2'
+                  loading={isLoading}
+                  onClick={() => setShowModal(true)}
                 >
-                  Terms of Service
-                </a>{' '}
-                and{' '}
-                <a
-                  href='/privacy'
-                  className='underline underline-offset-4 hover:text-primary'
-                >
-                  Privacy Policy
-                </a>
-                .
+                  {baseUrl}
+                </Button>
               </p>
             </Card>
-            <Credenza open={!baseUrl ? true : false}>
+            <Credenza open={showModal}>
               <CredenzaContent>
                 <CredenzaHeader>
                   <CredenzaTitle>Set Base URL</CredenzaTitle>

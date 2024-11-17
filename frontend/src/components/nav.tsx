@@ -27,9 +27,8 @@ import {
 import { cn } from '@/lib/utils'
 import useCheckActiveNav from '@/hooks/use-check-active-nav'
 import { SideLink } from '@/data/sidelinks'
-import { AuthContext } from '../context/AuthContext'
 import React from 'react'
-
+import { useUserStore } from '@/store/user-store'
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean
   links: SideLink[]
@@ -42,7 +41,7 @@ export default function Nav({
   className,
   closeNav,
 }: NavProps) {
-  const { user, login, logout } = React.useContext(AuthContext)
+  const token = useUserStore.getState().user?.accessToken
   const navigate = useNavigate()
   const renderLink = ({ sub, ...rest }: SideLink) => {
     const key = `${rest.title}-${rest.href}`
@@ -79,7 +78,7 @@ export default function Nav({
       <TooltipProvider delayDuration={0}>
         <nav className='grid gap-1 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2'>
           {links.map((l) => {
-            if (user?.token) {
+            if (token) {
               if (!['Sign In', 'Sign Up', 'Forgot Password'].includes(l.title))
                 return renderLink(l)
             } else {
@@ -87,7 +86,7 @@ export default function Nav({
                 return renderLink(l)
             }
           })}
-          {user?.token &&
+          {token &&
             renderLink({
               title: 'Logout',
               label: '',

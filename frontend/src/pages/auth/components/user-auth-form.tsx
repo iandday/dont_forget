@@ -119,7 +119,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                     </Link>
                   </div>
                   <FormControl>
-                    <PasswordInput placeholder='********' {...field} />
+                    <PasswordInput
+                      placeholder='********'
+                      autoComplete='password'
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

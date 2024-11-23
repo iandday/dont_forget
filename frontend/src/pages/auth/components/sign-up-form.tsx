@@ -15,6 +15,8 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/custom/button'
 import { PasswordInput } from '@/components/custom/password-input'
 import { cn } from '@/lib/utils'
+import { useApiViewsUserRegisterUser } from '@/lib/api'
+import { useNavigate } from 'react-router-dom'
 
 interface SignUpFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -32,7 +34,14 @@ const formSchema = z
       .min(7, {
         message: 'Password must be at least 7 characters long',
       }),
-    confirmPassword: z.string(),
+    confirmPassword: z
+      .string()
+      .min(1, {
+        message: 'Please enter your password',
+      })
+      .min(7, {
+        message: 'Password must be at least 7 characters long',
+      }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match.",
@@ -41,6 +50,14 @@ const formSchema = z
 
 export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const {
+    mutate: registerMutate,
+    isSuccess: registerMutateIsSuccess,
+    error: registerMutateError,
+    reset: registerMutateReset,
+    data: registerData,
+  } = useApiViewsUserRegisterUser()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,11 +70,28 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    console.log(data)
-
     setTimeout(() => {
       setIsLoading(false)
     }, 3000)
+    registerMutate(
+      {
+        data: {
+          email: data.email,
+          password: data.password,
+        },
+      },
+      {
+        onSuccess(data) {
+          console.log(data)
+          setIsLoading(false)
+          navigate('/sign-in')
+        },
+        onError: (err) => {
+          console.log('ERROR')
+          console.log(err)
+        },
+      }
+    )
   }
 
   return (
@@ -72,7 +106,11 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                 <FormItem className='space-y-1'>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='name@example.com' {...field} />
+                    <Input
+                      placeholder='name@example.com'
+                      autoComplete='username'
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -85,7 +123,11 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                 <FormItem className='space-y-1'>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder='********' {...field} />
+                    <PasswordInput
+                      placeholder='********'
+                      {...field}
+                      autoComplete='new-password'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -98,7 +140,11 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                 <FormItem className='space-y-1'>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder='********' {...field} />
+                    <PasswordInput
+                      placeholder='********'
+                      autoComplete='new-password'
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

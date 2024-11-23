@@ -5,6 +5,9 @@ import { persist } from 'zustand/middleware'
 interface User {
   accessToken: string
   refreshToken: string
+  firstName: string
+  lastName: string
+  email: string
 }
 
 interface UserState {

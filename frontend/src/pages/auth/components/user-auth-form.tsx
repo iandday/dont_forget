@@ -74,6 +74,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           setCredentials({
             accessToken: data.access,
             refreshToken: data.refresh,
+            firstName: data.user.first_name,
+            lastName: data.user.last_name,
+            email: data.user.email,
           })
 
           navigate('/')

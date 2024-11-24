@@ -44,7 +44,7 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link to={'/settings'}>
+          <Link to={'/profile'}>
             <DropdownMenuItem>Profile</DropdownMenuItem>
           </Link>
           <Link to={'/settings'}>

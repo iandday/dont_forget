@@ -7,6 +7,7 @@ import UnauthorisedError from './pages/errors/unauthorised-error.tsx'
 import { useUserStore } from './store/user-store.ts'
 import * as React from 'react'
 import Settings from './pages/settings/index.tsx'
+import Profile from './pages/profile/index.tsx'
 import Index from './pages/index/index.tsx'
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -80,7 +81,10 @@ const router = createBrowserRouter([
           Component: (await import('@/components/coming-soon')).default,
         }),
       },
-
+      {
+        path: 'profile',
+        element: <ProtectedRoute>{<Profile />}</ProtectedRoute>,
+      },
       {
         path: 'settings',
         element: <ProtectedRoute>{<Settings />}</ProtectedRoute>,
@@ -91,19 +95,6 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            lazy: async () => ({
-              Component: (await import('./pages/settings/profile/index.tsx'))
-                .default,
-            }),
-          },
-          {
-            path: 'account',
-            lazy: async () => ({
-              Component: (await import('./pages/settings/account/index.tsx'))
-                .default,
-            }),
-          },
-          {
             path: 'appearance',
             lazy: async () => ({
               Component: (await import('./pages/settings/appearance/index.tsx'))

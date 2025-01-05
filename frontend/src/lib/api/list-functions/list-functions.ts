@@ -5,7 +5,7 @@
  * Endpoints for interacting with the shopping list application
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import type {
   MutationFunction,
   QueryFunction,
@@ -16,15 +16,15 @@ import type {
   UseQueryResult,
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
-} from '@tanstack/react-query'
+} from "@tanstack/react-query";
 import type {
   ApiViewsListFunctionsAddItemBody,
   ApiViewsListFunctionsUpdateItemBody,
   ListFunctionsAddOut,
   ListItemOut,
-} from '.././model'
-import { customInstance } from '.././mutator/custom-instance'
-import type { ErrorType } from '.././mutator/custom-instance'
+} from "../model";
+import { customInstance } from "../mutator/custom-instance";
+import type { ErrorType } from "../mutator/custom-instance";
 
 /**
  * @summary Get Shopping List Group List
@@ -35,21 +35,17 @@ export const apiViewsListFunctionsGetShoppingListGroupList = (
 ) => {
   return customInstance<ListFunctionsAddOut>({
     url: `/api/list_functions/shopping_list_group/${id}`,
-    method: 'GET',
+    method: "GET",
     signal,
-  })
-}
+  });
+};
 
-export const getApiViewsListFunctionsGetShoppingListGroupListQueryKey = (
-  id: string | undefined | null
-) => {
-  return [`/api/list_functions/shopping_list_group/${id}`] as const
-}
+export const getApiViewsListFunctionsGetShoppingListGroupListQueryKey = (id: string | undefined | null) => {
+  return [`/api/list_functions/shopping_list_group/${id}`] as const;
+};
 
 export const getApiViewsListFunctionsGetShoppingListGroupListQueryOptions = <
-  TData = Awaited<
-    ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>
-  >,
+  TData = Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
   TError = ErrorType<unknown>,
 >(
   id: string | undefined | null,
@@ -58,18 +54,16 @@ export const getApiViewsListFunctionsGetShoppingListGroupListQueryOptions = <
       Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
       TError,
       TData
-    >
+    >;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getApiViewsListFunctionsGetShoppingListGroupListQueryKey(id)
+  const queryKey = queryOptions?.queryKey ?? getApiViewsListFunctionsGetShoppingListGroupListQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>
-  > = ({ signal }) => apiViewsListFunctionsGetShoppingListGroupList(id, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>> = ({
+    signal,
+  }) => apiViewsListFunctionsGetShoppingListGroupList(id, signal);
 
   return {
     queryKey,
@@ -80,24 +74,20 @@ export const getApiViewsListFunctionsGetShoppingListGroupListQueryOptions = <
     Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
-}
+  > & { queryKey: QueryKey };
+};
 
-export type ApiViewsListFunctionsGetShoppingListGroupListQueryResult =
-  NonNullable<
-    Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>
-  >
-export type ApiViewsListFunctionsGetShoppingListGroupListQueryError =
-  ErrorType<unknown>
+export type ApiViewsListFunctionsGetShoppingListGroupListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>
+>;
+export type ApiViewsListFunctionsGetShoppingListGroupListQueryError = ErrorType<unknown>;
 
 /**
  * @summary Get Shopping List Group List
  */
 
 export function useApiViewsListFunctionsGetShoppingListGroupList<
-  TData = Awaited<
-    ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>
-  >,
+  TData = Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
   TError = ErrorType<unknown>,
 >(
   id: string | undefined | null,
@@ -106,77 +96,22 @@ export function useApiViewsListFunctionsGetShoppingListGroupList<
       Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
       TError,
       TData
-    >
+    >;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions =
-    getApiViewsListFunctionsGetShoppingListGroupListQueryOptions(id, options)
+  const queryOptions = getApiViewsListFunctionsGetShoppingListGroupListQueryOptions(id, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
-export const getApiViewsListFunctionsGetShoppingListGroupListSuspenseQueryOptions =
-  <
-    TData = Awaited<
-      ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>
-    >,
-    TError = ErrorType<unknown>,
-  >(
-    id: string | undefined | null,
-    options?: {
-      query?: UseSuspenseQueryOptions<
-        Awaited<
-          ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>
-        >,
-        TError,
-        TData
-      >
-    }
-  ) => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-      queryOptions?.queryKey ??
-      getApiViewsListFunctionsGetShoppingListGroupListQueryKey(id)
-
-    const queryFn: QueryFunction<
-      Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>
-    > = ({ signal }) =>
-      apiViewsListFunctionsGetShoppingListGroupList(id, signal)
-
-    return {
-      queryKey,
-      queryFn,
-      enabled: !!id,
-      ...queryOptions,
-    } as UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
-      TError,
-      TData
-    > & { queryKey: QueryKey }
-  }
-
-export type ApiViewsListFunctionsGetShoppingListGroupListSuspenseQueryResult =
-  NonNullable<
-    Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>
-  >
-export type ApiViewsListFunctionsGetShoppingListGroupListSuspenseQueryError =
-  ErrorType<unknown>
-
-/**
- * @summary Get Shopping List Group List
- */
-
-export function useApiViewsListFunctionsGetShoppingListGroupListSuspense<
-  TData = Awaited<
-    ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>
-  >,
+export const getApiViewsListFunctionsGetShoppingListGroupListSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
   TError = ErrorType<unknown>,
 >(
   id: string | undefined | null,
@@ -185,23 +120,60 @@ export function useApiViewsListFunctionsGetShoppingListGroupListSuspense<
       Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
       TError,
       TData
-    >
+    >;
+  }
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getApiViewsListFunctionsGetShoppingListGroupListQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>> = ({
+    signal,
+  }) => apiViewsListFunctionsGetShoppingListGroupList(id, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ApiViewsListFunctionsGetShoppingListGroupListSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>
+>;
+export type ApiViewsListFunctionsGetShoppingListGroupListSuspenseQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get Shopping List Group List
+ */
+
+export function useApiViewsListFunctionsGetShoppingListGroupListSuspense<
+  TData = Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string | undefined | null,
+  options?: {
+    query?: UseSuspenseQueryOptions<
+      Awaited<ReturnType<typeof apiViewsListFunctionsGetShoppingListGroupList>>,
+      TError,
+      TData
+    >;
   }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions =
-    getApiViewsListFunctionsGetShoppingListGroupListSuspenseQueryOptions(
-      id,
-      options
-    )
+  const queryOptions = getApiViewsListFunctionsGetShoppingListGroupListSuspenseQueryOptions(id, options);
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 /**
@@ -210,20 +182,17 @@ export function useApiViewsListFunctionsGetShoppingListGroupListSuspense<
 export const apiViewsListFunctionsAddItem = (
   apiViewsListFunctionsAddItemBody: ApiViewsListFunctionsAddItemBody
 ) => {
-  const formUrlEncoded = new URLSearchParams()
-  formUrlEncoded.append('item_id', apiViewsListFunctionsAddItemBody.item_id)
-  formUrlEncoded.append(
-    'quantity',
-    apiViewsListFunctionsAddItemBody.quantity.toString()
-  )
+  const formUrlEncoded = new URLSearchParams();
+  formUrlEncoded.append("item_id", apiViewsListFunctionsAddItemBody.item_id);
+  formUrlEncoded.append("quantity", apiViewsListFunctionsAddItemBody.quantity.toString());
 
   return customInstance<ListFunctionsAddOut>({
     url: `/api/list_functions/add_item`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
     data: formUrlEncoded,
-  })
-}
+  });
+};
 
 export const getApiViewsListFunctionsAddItemMutationOptions = <
   TError = ErrorType<unknown>,
@@ -234,58 +203,53 @@ export const getApiViewsListFunctionsAddItemMutationOptions = <
     TError,
     { data: ApiViewsListFunctionsAddItemBody },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof apiViewsListFunctionsAddItem>>,
   TError,
   { data: ApiViewsListFunctionsAddItemBody },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof apiViewsListFunctionsAddItem>>,
     { data: ApiViewsListFunctionsAddItemBody }
   > = (props) => {
-    const { data } = props ?? {}
+    const { data } = props ?? {};
 
-    return apiViewsListFunctionsAddItem(data)
-  }
+    return apiViewsListFunctionsAddItem(data);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type ApiViewsListFunctionsAddItemMutationResult = NonNullable<
   Awaited<ReturnType<typeof apiViewsListFunctionsAddItem>>
->
-export type ApiViewsListFunctionsAddItemMutationBody =
-  ApiViewsListFunctionsAddItemBody
-export type ApiViewsListFunctionsAddItemMutationError = ErrorType<unknown>
+>;
+export type ApiViewsListFunctionsAddItemMutationBody = ApiViewsListFunctionsAddItemBody;
+export type ApiViewsListFunctionsAddItemMutationError = ErrorType<unknown>;
 
 /**
  * @summary Add Item
  */
-export const useApiViewsListFunctionsAddItem = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
+export const useApiViewsListFunctionsAddItem = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof apiViewsListFunctionsAddItem>>,
     TError,
     { data: ApiViewsListFunctionsAddItemBody },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof apiViewsListFunctionsAddItem>>,
   TError,
   { data: ApiViewsListFunctionsAddItemBody },
   TContext
 > => {
-  const mutationOptions =
-    getApiViewsListFunctionsAddItemMutationOptions(options)
+  const mutationOptions = getApiViewsListFunctionsAddItemMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};
 /**
  * @summary Update Item
  */
@@ -293,33 +257,24 @@ export const apiViewsListFunctionsUpdateItem = (
   id: string | undefined | null,
   apiViewsListFunctionsUpdateItemBody: ApiViewsListFunctionsUpdateItemBody
 ) => {
-  const formUrlEncoded = new URLSearchParams()
+  const formUrlEncoded = new URLSearchParams();
   if (apiViewsListFunctionsUpdateItemBody.quantity !== undefined) {
-    formUrlEncoded.append(
-      'quantity',
-      apiViewsListFunctionsUpdateItemBody.quantity.toString()
-    )
+    formUrlEncoded.append("quantity", apiViewsListFunctionsUpdateItemBody.quantity.toString());
   }
   if (apiViewsListFunctionsUpdateItemBody.active !== undefined) {
-    formUrlEncoded.append(
-      'active',
-      apiViewsListFunctionsUpdateItemBody.active.toString()
-    )
+    formUrlEncoded.append("active", apiViewsListFunctionsUpdateItemBody.active.toString());
   }
   if (apiViewsListFunctionsUpdateItemBody.completed !== undefined) {
-    formUrlEncoded.append(
-      'completed',
-      apiViewsListFunctionsUpdateItemBody.completed.toString()
-    )
+    formUrlEncoded.append("completed", apiViewsListFunctionsUpdateItemBody.completed.toString());
   }
 
   return customInstance<ListItemOut>({
     url: `/api/list_functions/${id}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    method: "PUT",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
     data: formUrlEncoded,
-  })
-}
+  });
+};
 
 export const getApiViewsListFunctionsUpdateItemMutationOptions = <
   TError = ErrorType<unknown>,
@@ -330,69 +285,62 @@ export const getApiViewsListFunctionsUpdateItemMutationOptions = <
     TError,
     { id: string; data: ApiViewsListFunctionsUpdateItemBody },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof apiViewsListFunctionsUpdateItem>>,
   TError,
   { id: string; data: ApiViewsListFunctionsUpdateItemBody },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof apiViewsListFunctionsUpdateItem>>,
     { id: string; data: ApiViewsListFunctionsUpdateItemBody }
   > = (props) => {
-    const { id, data } = props ?? {}
+    const { id, data } = props ?? {};
 
-    return apiViewsListFunctionsUpdateItem(id, data)
-  }
+    return apiViewsListFunctionsUpdateItem(id, data);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type ApiViewsListFunctionsUpdateItemMutationResult = NonNullable<
   Awaited<ReturnType<typeof apiViewsListFunctionsUpdateItem>>
->
-export type ApiViewsListFunctionsUpdateItemMutationBody =
-  ApiViewsListFunctionsUpdateItemBody
-export type ApiViewsListFunctionsUpdateItemMutationError = ErrorType<unknown>
+>;
+export type ApiViewsListFunctionsUpdateItemMutationBody = ApiViewsListFunctionsUpdateItemBody;
+export type ApiViewsListFunctionsUpdateItemMutationError = ErrorType<unknown>;
 
 /**
  * @summary Update Item
  */
-export const useApiViewsListFunctionsUpdateItem = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
+export const useApiViewsListFunctionsUpdateItem = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof apiViewsListFunctionsUpdateItem>>,
     TError,
     { id: string; data: ApiViewsListFunctionsUpdateItemBody },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof apiViewsListFunctionsUpdateItem>>,
   TError,
   { id: string; data: ApiViewsListFunctionsUpdateItemBody },
   TContext
 > => {
-  const mutationOptions =
-    getApiViewsListFunctionsUpdateItemMutationOptions(options)
+  const mutationOptions = getApiViewsListFunctionsUpdateItemMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};
 /**
  * @summary Delete Item
  */
-export const apiViewsListFunctionsDeleteItem = (
-  itemId: string | undefined | null
-) => {
+export const apiViewsListFunctionsDeleteItem = (itemId: string | undefined | null) => {
   return customInstance<void>({
     url: `/api/list_functions/${itemId}`,
-    method: 'DELETE',
-  })
-}
+    method: "DELETE",
+  });
+};
 
 export const getApiViewsListFunctionsDeleteItemMutationOptions = <
   TError = ErrorType<unknown>,
@@ -403,54 +351,50 @@ export const getApiViewsListFunctionsDeleteItemMutationOptions = <
     TError,
     { itemId: string },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof apiViewsListFunctionsDeleteItem>>,
   TError,
   { itemId: string },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof apiViewsListFunctionsDeleteItem>>,
     { itemId: string }
   > = (props) => {
-    const { itemId } = props ?? {}
+    const { itemId } = props ?? {};
 
-    return apiViewsListFunctionsDeleteItem(itemId)
-  }
+    return apiViewsListFunctionsDeleteItem(itemId);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type ApiViewsListFunctionsDeleteItemMutationResult = NonNullable<
   Awaited<ReturnType<typeof apiViewsListFunctionsDeleteItem>>
->
+>;
 
-export type ApiViewsListFunctionsDeleteItemMutationError = ErrorType<unknown>
+export type ApiViewsListFunctionsDeleteItemMutationError = ErrorType<unknown>;
 
 /**
  * @summary Delete Item
  */
-export const useApiViewsListFunctionsDeleteItem = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
+export const useApiViewsListFunctionsDeleteItem = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof apiViewsListFunctionsDeleteItem>>,
     TError,
     { itemId: string },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof apiViewsListFunctionsDeleteItem>>,
   TError,
   { itemId: string },
   TContext
 > => {
-  const mutationOptions =
-    getApiViewsListFunctionsDeleteItemMutationOptions(options)
+  const mutationOptions = getApiViewsListFunctionsDeleteItemMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};

@@ -5,7 +5,7 @@
  * Endpoints for interacting with the shopping list application
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import type {
   MutationFunction,
   QueryFunction,
@@ -16,15 +16,15 @@ import type {
   UseQueryResult,
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
-} from '@tanstack/react-query'
+} from "@tanstack/react-query";
 import type {
   ApiViewsItemCreateItemBody,
   ItemOut,
   NinjaCrudViewsListViewItemListParams,
   PagedItemOut,
-} from '.././model'
-import { customInstance } from '.././mutator/custom-instance'
-import type { ErrorType } from '.././mutator/custom-instance'
+} from "../model";
+import { customInstance } from "../mutator/custom-instance";
+import type { ErrorType } from "../mutator/custom-instance";
 
 /**
  * @summary Item List
@@ -35,17 +35,15 @@ export const ninjaCrudViewsListViewItemList = (
 ) => {
   return customInstance<PagedItemOut>({
     url: `/api/item/`,
-    method: 'GET',
+    method: "GET",
     params,
     signal,
-  })
-}
+  });
+};
 
-export const getNinjaCrudViewsListViewItemListQueryKey = (
-  params?: NinjaCrudViewsListViewItemListParams
-) => {
-  return [`/api/item/`, ...(params ? [params] : [])] as const
-}
+export const getNinjaCrudViewsListViewItemListQueryKey = (params?: NinjaCrudViewsListViewItemListParams) => {
+  return [`/api/item/`, ...(params ? [params] : [])] as const;
+};
 
 export const getNinjaCrudViewsListViewItemListQueryOptions = <
   TData = Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>,
@@ -53,33 +51,27 @@ export const getNinjaCrudViewsListViewItemListQueryOptions = <
 >(
   params?: NinjaCrudViewsListViewItemListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsListViewItemListQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsListViewItemListQueryKey(params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>
-  > = ({ signal }) => ninjaCrudViewsListViewItemList(params, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>> = ({ signal }) =>
+    ninjaCrudViewsListViewItemList(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
-}
+  > & { queryKey: QueryKey };
+};
 
 export type NinjaCrudViewsListViewItemListQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>
->
-export type NinjaCrudViewsListViewItemListQueryError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsListViewItemListQueryError = ErrorType<unknown>;
 
 /**
  * @summary Item List
@@ -91,25 +83,18 @@ export function useNinjaCrudViewsListViewItemList<
 >(
   params?: NinjaCrudViewsListViewItemListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>, TError, TData>;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsListViewItemListQueryOptions(
-    params,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsListViewItemListQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 export const getNinjaCrudViewsListViewItemListSuspenseQueryOptions = <
@@ -118,34 +103,27 @@ export const getNinjaCrudViewsListViewItemListSuspenseQueryOptions = <
 >(
   params?: NinjaCrudViewsListViewItemListParams,
   options?: {
-    query?: UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>,
-      TError,
-      TData
-    >
+    query?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsListViewItemListQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsListViewItemListQueryKey(params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>
-  > = ({ signal }) => ninjaCrudViewsListViewItemList(params, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>> = ({ signal }) =>
+    ninjaCrudViewsListViewItemList(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
     Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
-}
+  > & { queryKey: QueryKey };
+};
 
 export type NinjaCrudViewsListViewItemListSuspenseQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>
->
-export type NinjaCrudViewsListViewItemListSuspenseQueryError =
-  ErrorType<unknown>
+>;
+export type NinjaCrudViewsListViewItemListSuspenseQueryError = ErrorType<unknown>;
 
 /**
  * @summary Item List
@@ -157,66 +135,50 @@ export function useNinjaCrudViewsListViewItemListSuspense<
 >(
   params?: NinjaCrudViewsListViewItemListParams,
   options?: {
-    query?: UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>,
-      TError,
-      TData
-    >
+    query?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewItemList>>, TError, TData>;
   }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsListViewItemListSuspenseQueryOptions(
-    params,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsListViewItemListSuspenseQueryOptions(params, options);
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 /**
  * @summary Create Item
  */
-export const apiViewsItemCreateItem = (
-  apiViewsItemCreateItemBody: ApiViewsItemCreateItemBody
-) => {
-  const formData = new FormData()
+export const apiViewsItemCreateItem = (apiViewsItemCreateItemBody: ApiViewsItemCreateItemBody) => {
+  const formData = new FormData();
   if (apiViewsItemCreateItemBody.id !== undefined) {
-    formData.append('id', apiViewsItemCreateItemBody.id)
+    formData.append("id", apiViewsItemCreateItemBody.id);
   }
-  formData.append('name', apiViewsItemCreateItemBody.name)
-  formData.append('plural_name', apiViewsItemCreateItemBody.plural_name)
-  formData.append('list_group_id', apiViewsItemCreateItemBody.list_group_id)
+  formData.append("name", apiViewsItemCreateItemBody.name);
+  formData.append("plural_name", apiViewsItemCreateItemBody.plural_name);
+  formData.append("list_group_id", apiViewsItemCreateItemBody.list_group_id);
   if (apiViewsItemCreateItemBody.default_quantity !== undefined) {
-    formData.append(
-      'default_quantity',
-      apiViewsItemCreateItemBody.default_quantity.toString()
-    )
+    formData.append("default_quantity", apiViewsItemCreateItemBody.default_quantity.toString());
   }
-  formData.append(
-    'unit_of_measure_id',
-    apiViewsItemCreateItemBody.unit_of_measure_id
-  )
-  formData.append('category_id', apiViewsItemCreateItemBody.category_id)
+  formData.append("unit_of_measure_id", apiViewsItemCreateItemBody.unit_of_measure_id);
+  formData.append("category_id", apiViewsItemCreateItemBody.category_id);
   if (apiViewsItemCreateItemBody.notes !== undefined) {
-    formData.append('notes', apiViewsItemCreateItemBody.notes)
+    formData.append("notes", apiViewsItemCreateItemBody.notes);
   }
   if (apiViewsItemCreateItemBody.photo !== undefined) {
-    formData.append('photo', apiViewsItemCreateItemBody.photo)
+    formData.append("photo", apiViewsItemCreateItemBody.photo);
   }
 
   return customInstance<ItemOut>({
     url: `/api/item/`,
-    method: 'POST',
-    headers: { 'Content-Type': 'multipart/form-data' },
+    method: "POST",
+    headers: { "Content-Type": "multipart/form-data" },
     data: formData,
-  })
-}
+  });
+};
 
 export const getApiViewsItemCreateItemMutationOptions = <
   TError = ErrorType<unknown>,
@@ -227,56 +189,53 @@ export const getApiViewsItemCreateItemMutationOptions = <
     TError,
     { data: ApiViewsItemCreateItemBody },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof apiViewsItemCreateItem>>,
   TError,
   { data: ApiViewsItemCreateItemBody },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof apiViewsItemCreateItem>>,
     { data: ApiViewsItemCreateItemBody }
   > = (props) => {
-    const { data } = props ?? {}
+    const { data } = props ?? {};
 
-    return apiViewsItemCreateItem(data)
-  }
+    return apiViewsItemCreateItem(data);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type ApiViewsItemCreateItemMutationResult = NonNullable<
   Awaited<ReturnType<typeof apiViewsItemCreateItem>>
->
-export type ApiViewsItemCreateItemMutationBody = ApiViewsItemCreateItemBody
-export type ApiViewsItemCreateItemMutationError = ErrorType<unknown>
+>;
+export type ApiViewsItemCreateItemMutationBody = ApiViewsItemCreateItemBody;
+export type ApiViewsItemCreateItemMutationError = ErrorType<unknown>;
 
 /**
  * @summary Create Item
  */
-export const useApiViewsItemCreateItem = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
+export const useApiViewsItemCreateItem = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof apiViewsItemCreateItem>>,
     TError,
     { data: ApiViewsItemCreateItemBody },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof apiViewsItemCreateItem>>,
   TError,
   { data: ApiViewsItemCreateItemBody },
   TContext
 > => {
-  const mutationOptions = getApiViewsItemCreateItemMutationOptions(options)
+  const mutationOptions = getApiViewsItemCreateItemMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};
 /**
  * @summary Item Read
  */
@@ -286,16 +245,14 @@ export const ninjaCrudViewsReadViewItemRead = (
 ) => {
   return customInstance<ItemOut>({
     url: `/api/item/${id}`,
-    method: 'GET',
+    method: "GET",
     signal,
-  })
-}
+  });
+};
 
-export const getNinjaCrudViewsReadViewItemReadQueryKey = (
-  id?: string | null | undefined | null
-) => {
-  return [`/api/item/${id}`] as const
-}
+export const getNinjaCrudViewsReadViewItemReadQueryKey = (id?: string | null | undefined | null) => {
+  return [`/api/item/${id}`] as const;
+};
 
 export const getNinjaCrudViewsReadViewItemReadQueryOptions = <
   TData = Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>,
@@ -303,38 +260,30 @@ export const getNinjaCrudViewsReadViewItemReadQueryOptions = <
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsReadViewItemReadQueryKey(id)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsReadViewItemReadQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>
-  > = ({ signal }) => ninjaCrudViewsReadViewItemRead(id, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>> = ({ signal }) =>
+    ninjaCrudViewsReadViewItemRead(id, signal);
 
   return {
     queryKey,
     queryFn,
     enabled: !!id,
     ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
-}
+  } as UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
 
 export type NinjaCrudViewsReadViewItemReadQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>
->
-export type NinjaCrudViewsReadViewItemReadQueryError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsReadViewItemReadQueryError = ErrorType<unknown>;
 
 /**
  * @summary Item Read
@@ -346,25 +295,18 @@ export function useNinjaCrudViewsReadViewItemRead<
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>, TError, TData>;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsReadViewItemReadQueryOptions(
-    id,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsReadViewItemReadQueryOptions(id, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 export const getNinjaCrudViewsReadViewItemReadSuspenseQueryOptions = <
@@ -373,39 +315,30 @@ export const getNinjaCrudViewsReadViewItemReadSuspenseQueryOptions = <
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>,
-      TError,
-      TData
-    >
+    query?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsReadViewItemReadQueryKey(id)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsReadViewItemReadQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>
-  > = ({ signal }) => ninjaCrudViewsReadViewItemRead(id, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>> = ({ signal }) =>
+    ninjaCrudViewsReadViewItemRead(id, signal);
 
   return {
     queryKey,
     queryFn,
     enabled: !!id,
     ...queryOptions,
-  } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
-}
+  } as UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
 
 export type NinjaCrudViewsReadViewItemReadSuspenseQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>
->
-export type NinjaCrudViewsReadViewItemReadSuspenseQueryError =
-  ErrorType<unknown>
+>;
+export type NinjaCrudViewsReadViewItemReadSuspenseQueryError = ErrorType<unknown>;
 
 /**
  * @summary Item Read
@@ -417,36 +350,26 @@ export function useNinjaCrudViewsReadViewItemReadSuspense<
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>,
-      TError,
-      TData
-    >
+    query?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewItemRead>>, TError, TData>;
   }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsReadViewItemReadSuspenseQueryOptions(
-    id,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsReadViewItemReadSuspenseQueryOptions(id, options);
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 /**
  * @summary Item Delete
  */
-export const ninjaCrudViewsDeleteViewItemDelete = (
-  id?: string | null | undefined | null
-) => {
-  return customInstance<void>({ url: `/api/item/${id}`, method: 'DELETE' })
-}
+export const ninjaCrudViewsDeleteViewItemDelete = (id?: string | null | undefined | null) => {
+  return customInstance<void>({ url: `/api/item/${id}`, method: "DELETE" });
+};
 
 export const getNinjaCrudViewsDeleteViewItemDeleteMutationOptions = <
   TError = ErrorType<unknown>,
@@ -457,32 +380,32 @@ export const getNinjaCrudViewsDeleteViewItemDeleteMutationOptions = <
     TError,
     { id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewItemDelete>>,
   TError,
   { id?: string | null },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewItemDelete>>,
     { id?: string | null }
   > = (props) => {
-    const { id } = props ?? {}
+    const { id } = props ?? {};
 
-    return ninjaCrudViewsDeleteViewItemDelete(id)
-  }
+    return ninjaCrudViewsDeleteViewItemDelete(id);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type NinjaCrudViewsDeleteViewItemDeleteMutationResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewItemDelete>>
->
+>;
 
-export type NinjaCrudViewsDeleteViewItemDeleteMutationError = ErrorType<unknown>
+export type NinjaCrudViewsDeleteViewItemDeleteMutationError = ErrorType<unknown>;
 
 /**
  * @summary Item Delete
@@ -496,15 +419,14 @@ export const useNinjaCrudViewsDeleteViewItemDelete = <
     TError,
     { id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewItemDelete>>,
   TError,
   { id?: string | null },
   TContext
 > => {
-  const mutationOptions =
-    getNinjaCrudViewsDeleteViewItemDeleteMutationOptions(options)
+  const mutationOptions = getNinjaCrudViewsDeleteViewItemDeleteMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};

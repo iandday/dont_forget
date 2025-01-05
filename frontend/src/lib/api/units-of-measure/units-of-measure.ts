@@ -5,7 +5,7 @@
  * Endpoints for interacting with the shopping list application
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import type {
   MutationFunction,
   QueryFunction,
@@ -16,15 +16,15 @@ import type {
   UseQueryResult,
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
-} from '@tanstack/react-query'
+} from "@tanstack/react-query";
 import type {
   NinjaCrudViewsListViewUomListParams,
   PagedUnitOfMeasureOut,
   UnitOfMeasureIn,
   UnitOfMeasureOut,
-} from '.././model'
-import { customInstance } from '.././mutator/custom-instance'
-import type { ErrorType } from '.././mutator/custom-instance'
+} from "../model";
+import { customInstance } from "../mutator/custom-instance";
+import type { ErrorType } from "../mutator/custom-instance";
 
 /**
  * @summary Uom List
@@ -35,17 +35,15 @@ export const ninjaCrudViewsListViewUomList = (
 ) => {
   return customInstance<PagedUnitOfMeasureOut>({
     url: `/api/uom/`,
-    method: 'GET',
+    method: "GET",
     params,
     signal,
-  })
-}
+  });
+};
 
-export const getNinjaCrudViewsListViewUomListQueryKey = (
-  params?: NinjaCrudViewsListViewUomListParams
-) => {
-  return [`/api/uom/`, ...(params ? [params] : [])] as const
-}
+export const getNinjaCrudViewsListViewUomListQueryKey = (params?: NinjaCrudViewsListViewUomListParams) => {
+  return [`/api/uom/`, ...(params ? [params] : [])] as const;
+};
 
 export const getNinjaCrudViewsListViewUomListQueryOptions = <
   TData = Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>,
@@ -53,33 +51,27 @@ export const getNinjaCrudViewsListViewUomListQueryOptions = <
 >(
   params?: NinjaCrudViewsListViewUomListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsListViewUomListQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsListViewUomListQueryKey(params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>
-  > = ({ signal }) => ninjaCrudViewsListViewUomList(params, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>> = ({ signal }) =>
+    ninjaCrudViewsListViewUomList(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
-}
+  > & { queryKey: QueryKey };
+};
 
 export type NinjaCrudViewsListViewUomListQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>
->
-export type NinjaCrudViewsListViewUomListQueryError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsListViewUomListQueryError = ErrorType<unknown>;
 
 /**
  * @summary Uom List
@@ -91,25 +83,18 @@ export function useNinjaCrudViewsListViewUomList<
 >(
   params?: NinjaCrudViewsListViewUomListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>, TError, TData>;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsListViewUomListQueryOptions(
-    params,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsListViewUomListQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 export const getNinjaCrudViewsListViewUomListSuspenseQueryOptions = <
@@ -118,33 +103,27 @@ export const getNinjaCrudViewsListViewUomListSuspenseQueryOptions = <
 >(
   params?: NinjaCrudViewsListViewUomListParams,
   options?: {
-    query?: UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>,
-      TError,
-      TData
-    >
+    query?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsListViewUomListQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsListViewUomListQueryKey(params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>
-  > = ({ signal }) => ninjaCrudViewsListViewUomList(params, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>> = ({ signal }) =>
+    ninjaCrudViewsListViewUomList(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
     Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
-}
+  > & { queryKey: QueryKey };
+};
 
 export type NinjaCrudViewsListViewUomListSuspenseQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>
->
-export type NinjaCrudViewsListViewUomListSuspenseQueryError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsListViewUomListSuspenseQueryError = ErrorType<unknown>;
 
 /**
  * @summary Uom List
@@ -156,41 +135,31 @@ export function useNinjaCrudViewsListViewUomListSuspense<
 >(
   params?: NinjaCrudViewsListViewUomListParams,
   options?: {
-    query?: UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>,
-      TError,
-      TData
-    >
+    query?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewUomList>>, TError, TData>;
   }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsListViewUomListSuspenseQueryOptions(
-    params,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsListViewUomListSuspenseQueryOptions(params, options);
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 /**
  * @summary Uom Create
  */
-export const ninjaCrudViewsCreateViewUomCreate = (
-  unitOfMeasureIn: UnitOfMeasureIn
-) => {
+export const ninjaCrudViewsCreateViewUomCreate = (unitOfMeasureIn: UnitOfMeasureIn) => {
   return customInstance<UnitOfMeasureOut>({
     url: `/api/uom/`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     data: unitOfMeasureIn,
-  })
-}
+  });
+};
 
 export const getNinjaCrudViewsCreateViewUomCreateMutationOptions = <
   TError = ErrorType<unknown>,
@@ -201,32 +170,32 @@ export const getNinjaCrudViewsCreateViewUomCreateMutationOptions = <
     TError,
     { data: UnitOfMeasureIn },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof ninjaCrudViewsCreateViewUomCreate>>,
   TError,
   { data: UnitOfMeasureIn },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof ninjaCrudViewsCreateViewUomCreate>>,
     { data: UnitOfMeasureIn }
   > = (props) => {
-    const { data } = props ?? {}
+    const { data } = props ?? {};
 
-    return ninjaCrudViewsCreateViewUomCreate(data)
-  }
+    return ninjaCrudViewsCreateViewUomCreate(data);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type NinjaCrudViewsCreateViewUomCreateMutationResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsCreateViewUomCreate>>
->
-export type NinjaCrudViewsCreateViewUomCreateMutationBody = UnitOfMeasureIn
-export type NinjaCrudViewsCreateViewUomCreateMutationError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsCreateViewUomCreateMutationBody = UnitOfMeasureIn;
+export type NinjaCrudViewsCreateViewUomCreateMutationError = ErrorType<unknown>;
 
 /**
  * @summary Uom Create
@@ -240,37 +209,31 @@ export const useNinjaCrudViewsCreateViewUomCreate = <
     TError,
     { data: UnitOfMeasureIn },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof ninjaCrudViewsCreateViewUomCreate>>,
   TError,
   { data: UnitOfMeasureIn },
   TContext
 > => {
-  const mutationOptions =
-    getNinjaCrudViewsCreateViewUomCreateMutationOptions(options)
+  const mutationOptions = getNinjaCrudViewsCreateViewUomCreateMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};
 /**
  * @summary Uom Read
  */
-export const ninjaCrudViewsReadViewUomRead = (
-  id?: string | null | undefined | null,
-  signal?: AbortSignal
-) => {
+export const ninjaCrudViewsReadViewUomRead = (id?: string | null | undefined | null, signal?: AbortSignal) => {
   return customInstance<UnitOfMeasureOut>({
     url: `/api/uom/${id}`,
-    method: 'GET',
+    method: "GET",
     signal,
-  })
-}
+  });
+};
 
-export const getNinjaCrudViewsReadViewUomReadQueryKey = (
-  id?: string | null | undefined | null
-) => {
-  return [`/api/uom/${id}`] as const
-}
+export const getNinjaCrudViewsReadViewUomReadQueryKey = (id?: string | null | undefined | null) => {
+  return [`/api/uom/${id}`] as const;
+};
 
 export const getNinjaCrudViewsReadViewUomReadQueryOptions = <
   TData = Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>,
@@ -278,38 +241,30 @@ export const getNinjaCrudViewsReadViewUomReadQueryOptions = <
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsReadViewUomReadQueryKey(id)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsReadViewUomReadQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>
-  > = ({ signal }) => ninjaCrudViewsReadViewUomRead(id, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>> = ({ signal }) =>
+    ninjaCrudViewsReadViewUomRead(id, signal);
 
   return {
     queryKey,
     queryFn,
     enabled: !!id,
     ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
-}
+  } as UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
 
 export type NinjaCrudViewsReadViewUomReadQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>
->
-export type NinjaCrudViewsReadViewUomReadQueryError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsReadViewUomReadQueryError = ErrorType<unknown>;
 
 /**
  * @summary Uom Read
@@ -321,22 +276,18 @@ export function useNinjaCrudViewsReadViewUomRead<
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>, TError, TData>;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsReadViewUomReadQueryOptions(id, options)
+  const queryOptions = getNinjaCrudViewsReadViewUomReadQueryOptions(id, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 export const getNinjaCrudViewsReadViewUomReadSuspenseQueryOptions = <
@@ -345,38 +296,30 @@ export const getNinjaCrudViewsReadViewUomReadSuspenseQueryOptions = <
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>,
-      TError,
-      TData
-    >
+    query?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsReadViewUomReadQueryKey(id)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsReadViewUomReadQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>
-  > = ({ signal }) => ninjaCrudViewsReadViewUomRead(id, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>> = ({ signal }) =>
+    ninjaCrudViewsReadViewUomRead(id, signal);
 
   return {
     queryKey,
     queryFn,
     enabled: !!id,
     ...queryOptions,
-  } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
-}
+  } as UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
 
 export type NinjaCrudViewsReadViewUomReadSuspenseQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>
->
-export type NinjaCrudViewsReadViewUomReadSuspenseQueryError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsReadViewUomReadSuspenseQueryError = ErrorType<unknown>;
 
 /**
  * @summary Uom Read
@@ -388,26 +331,18 @@ export function useNinjaCrudViewsReadViewUomReadSuspense<
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>,
-      TError,
-      TData
-    >
+    query?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewUomRead>>, TError, TData>;
   }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsReadViewUomReadSuspenseQueryOptions(
-    id,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsReadViewUomReadSuspenseQueryOptions(id, options);
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 /**
@@ -419,11 +354,11 @@ export const ninjaCrudViewsUpdateViewUomUpdate = (
 ) => {
   return customInstance<UnitOfMeasureOut>({
     url: `/api/uom/${id}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
     data: unitOfMeasureIn,
-  })
-}
+  });
+};
 
 export const getNinjaCrudViewsUpdateViewUomUpdateMutationOptions = <
   TError = ErrorType<unknown>,
@@ -434,32 +369,32 @@ export const getNinjaCrudViewsUpdateViewUomUpdateMutationOptions = <
     TError,
     { data: UnitOfMeasureIn; id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof ninjaCrudViewsUpdateViewUomUpdate>>,
   TError,
   { data: UnitOfMeasureIn; id?: string | null },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof ninjaCrudViewsUpdateViewUomUpdate>>,
     { data: UnitOfMeasureIn; id?: string | null }
   > = (props) => {
-    const { data, id } = props ?? {}
+    const { data, id } = props ?? {};
 
-    return ninjaCrudViewsUpdateViewUomUpdate(data, id)
-  }
+    return ninjaCrudViewsUpdateViewUomUpdate(data, id);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type NinjaCrudViewsUpdateViewUomUpdateMutationResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsUpdateViewUomUpdate>>
->
-export type NinjaCrudViewsUpdateViewUomUpdateMutationBody = UnitOfMeasureIn
-export type NinjaCrudViewsUpdateViewUomUpdateMutationError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsUpdateViewUomUpdateMutationBody = UnitOfMeasureIn;
+export type NinjaCrudViewsUpdateViewUomUpdateMutationError = ErrorType<unknown>;
 
 /**
  * @summary Uom Update
@@ -473,26 +408,23 @@ export const useNinjaCrudViewsUpdateViewUomUpdate = <
     TError,
     { data: UnitOfMeasureIn; id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof ninjaCrudViewsUpdateViewUomUpdate>>,
   TError,
   { data: UnitOfMeasureIn; id?: string | null },
   TContext
 > => {
-  const mutationOptions =
-    getNinjaCrudViewsUpdateViewUomUpdateMutationOptions(options)
+  const mutationOptions = getNinjaCrudViewsUpdateViewUomUpdateMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};
 /**
  * @summary Uom Delete
  */
-export const ninjaCrudViewsDeleteViewUomDelete = (
-  id?: string | null | undefined | null
-) => {
-  return customInstance<void>({ url: `/api/uom/${id}`, method: 'DELETE' })
-}
+export const ninjaCrudViewsDeleteViewUomDelete = (id?: string | null | undefined | null) => {
+  return customInstance<void>({ url: `/api/uom/${id}`, method: "DELETE" });
+};
 
 export const getNinjaCrudViewsDeleteViewUomDeleteMutationOptions = <
   TError = ErrorType<unknown>,
@@ -503,32 +435,32 @@ export const getNinjaCrudViewsDeleteViewUomDeleteMutationOptions = <
     TError,
     { id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewUomDelete>>,
   TError,
   { id?: string | null },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewUomDelete>>,
     { id?: string | null }
   > = (props) => {
-    const { id } = props ?? {}
+    const { id } = props ?? {};
 
-    return ninjaCrudViewsDeleteViewUomDelete(id)
-  }
+    return ninjaCrudViewsDeleteViewUomDelete(id);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type NinjaCrudViewsDeleteViewUomDeleteMutationResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewUomDelete>>
->
+>;
 
-export type NinjaCrudViewsDeleteViewUomDeleteMutationError = ErrorType<unknown>
+export type NinjaCrudViewsDeleteViewUomDeleteMutationError = ErrorType<unknown>;
 
 /**
  * @summary Uom Delete
@@ -542,15 +474,14 @@ export const useNinjaCrudViewsDeleteViewUomDelete = <
     TError,
     { id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewUomDelete>>,
   TError,
   { id?: string | null },
   TContext
 > => {
-  const mutationOptions =
-    getNinjaCrudViewsDeleteViewUomDeleteMutationOptions(options)
+  const mutationOptions = getNinjaCrudViewsDeleteViewUomDeleteMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};

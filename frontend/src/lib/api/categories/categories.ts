@@ -5,7 +5,7 @@
  * Endpoints for interacting with the shopping list application
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import type {
   MutationFunction,
   QueryFunction,
@@ -16,15 +16,15 @@ import type {
   UseQueryResult,
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
-} from '@tanstack/react-query'
+} from "@tanstack/react-query";
 import type {
   CategoryIn,
   CategoryOut,
   NinjaCrudViewsListViewCategoryListParams,
   PagedCategoryOut,
-} from '.././model'
-import { customInstance } from '.././mutator/custom-instance'
-import type { ErrorType } from '.././mutator/custom-instance'
+} from "../model";
+import { customInstance } from "../mutator/custom-instance";
+import type { ErrorType } from "../mutator/custom-instance";
 
 /**
  * @summary Category List
@@ -35,17 +35,17 @@ export const ninjaCrudViewsListViewCategoryList = (
 ) => {
   return customInstance<PagedCategoryOut>({
     url: `/api/category/`,
-    method: 'GET',
+    method: "GET",
     params,
     signal,
-  })
-}
+  });
+};
 
 export const getNinjaCrudViewsListViewCategoryListQueryKey = (
   params?: NinjaCrudViewsListViewCategoryListParams
 ) => {
-  return [`/api/category/`, ...(params ? [params] : [])] as const
-}
+  return [`/api/category/`, ...(params ? [params] : [])] as const;
+};
 
 export const getNinjaCrudViewsListViewCategoryListQueryOptions = <
   TData = Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>,
@@ -53,34 +53,28 @@ export const getNinjaCrudViewsListViewCategoryListQueryOptions = <
 >(
   params?: NinjaCrudViewsListViewCategoryListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getNinjaCrudViewsListViewCategoryListQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsListViewCategoryListQueryKey(params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>
-  > = ({ signal }) => ninjaCrudViewsListViewCategoryList(params, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>> = ({
+    signal,
+  }) => ninjaCrudViewsListViewCategoryList(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
-}
+  > & { queryKey: QueryKey };
+};
 
 export type NinjaCrudViewsListViewCategoryListQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>
->
-export type NinjaCrudViewsListViewCategoryListQueryError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsListViewCategoryListQueryError = ErrorType<unknown>;
 
 /**
  * @summary Category List
@@ -92,25 +86,18 @@ export function useNinjaCrudViewsListViewCategoryList<
 >(
   params?: NinjaCrudViewsListViewCategoryListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>, TError, TData>;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsListViewCategoryListQueryOptions(
-    params,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsListViewCategoryListQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 export const getNinjaCrudViewsListViewCategoryListSuspenseQueryOptions = <
@@ -123,31 +110,28 @@ export const getNinjaCrudViewsListViewCategoryListSuspenseQueryOptions = <
       Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>,
       TError,
       TData
-    >
+    >;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getNinjaCrudViewsListViewCategoryListQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsListViewCategoryListQueryKey(params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>
-  > = ({ signal }) => ninjaCrudViewsListViewCategoryList(params, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>> = ({
+    signal,
+  }) => ninjaCrudViewsListViewCategoryList(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
     Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
-}
+  > & { queryKey: QueryKey };
+};
 
 export type NinjaCrudViewsListViewCategoryListSuspenseQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>
->
-export type NinjaCrudViewsListViewCategoryListSuspenseQueryError =
-  ErrorType<unknown>
+>;
+export type NinjaCrudViewsListViewCategoryListSuspenseQueryError = ErrorType<unknown>;
 
 /**
  * @summary Category List
@@ -163,35 +147,31 @@ export function useNinjaCrudViewsListViewCategoryListSuspense<
       Awaited<ReturnType<typeof ninjaCrudViewsListViewCategoryList>>,
       TError,
       TData
-    >
+    >;
   }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions =
-    getNinjaCrudViewsListViewCategoryListSuspenseQueryOptions(params, options)
+  const queryOptions = getNinjaCrudViewsListViewCategoryListSuspenseQueryOptions(params, options);
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 /**
  * @summary Category Create
  */
-export const ninjaCrudViewsCreateViewCategoryCreate = (
-  categoryIn: CategoryIn
-) => {
+export const ninjaCrudViewsCreateViewCategoryCreate = (categoryIn: CategoryIn) => {
   return customInstance<CategoryOut>({
     url: `/api/category/`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     data: categoryIn,
-  })
-}
+  });
+};
 
 export const getNinjaCrudViewsCreateViewCategoryCreateMutationOptions = <
   TError = ErrorType<unknown>,
@@ -202,33 +182,32 @@ export const getNinjaCrudViewsCreateViewCategoryCreateMutationOptions = <
     TError,
     { data: CategoryIn },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof ninjaCrudViewsCreateViewCategoryCreate>>,
   TError,
   { data: CategoryIn },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof ninjaCrudViewsCreateViewCategoryCreate>>,
     { data: CategoryIn }
   > = (props) => {
-    const { data } = props ?? {}
+    const { data } = props ?? {};
 
-    return ninjaCrudViewsCreateViewCategoryCreate(data)
-  }
+    return ninjaCrudViewsCreateViewCategoryCreate(data);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type NinjaCrudViewsCreateViewCategoryCreateMutationResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsCreateViewCategoryCreate>>
->
-export type NinjaCrudViewsCreateViewCategoryCreateMutationBody = CategoryIn
-export type NinjaCrudViewsCreateViewCategoryCreateMutationError =
-  ErrorType<unknown>
+>;
+export type NinjaCrudViewsCreateViewCategoryCreateMutationBody = CategoryIn;
+export type NinjaCrudViewsCreateViewCategoryCreateMutationError = ErrorType<unknown>;
 
 /**
  * @summary Category Create
@@ -242,18 +221,17 @@ export const useNinjaCrudViewsCreateViewCategoryCreate = <
     TError,
     { data: CategoryIn },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof ninjaCrudViewsCreateViewCategoryCreate>>,
   TError,
   { data: CategoryIn },
   TContext
 > => {
-  const mutationOptions =
-    getNinjaCrudViewsCreateViewCategoryCreateMutationOptions(options)
+  const mutationOptions = getNinjaCrudViewsCreateViewCategoryCreateMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};
 /**
  * @summary Category Read
  */
@@ -263,16 +241,14 @@ export const ninjaCrudViewsReadViewCategoryRead = (
 ) => {
   return customInstance<CategoryOut>({
     url: `/api/category/${id}`,
-    method: 'GET',
+    method: "GET",
     signal,
-  })
-}
+  });
+};
 
-export const getNinjaCrudViewsReadViewCategoryReadQueryKey = (
-  id?: string | null | undefined | null
-) => {
-  return [`/api/category/${id}`] as const
-}
+export const getNinjaCrudViewsReadViewCategoryReadQueryKey = (id?: string | null | undefined | null) => {
+  return [`/api/category/${id}`] as const;
+};
 
 export const getNinjaCrudViewsReadViewCategoryReadQueryOptions = <
   TData = Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>,
@@ -280,38 +256,31 @@ export const getNinjaCrudViewsReadViewCategoryReadQueryOptions = <
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>, TError, TData>;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsReadViewCategoryReadQueryKey(id)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsReadViewCategoryReadQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>
-  > = ({ signal }) => ninjaCrudViewsReadViewCategoryRead(id, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>> = ({
+    signal,
+  }) => ninjaCrudViewsReadViewCategoryRead(id, signal);
 
   return {
     queryKey,
     queryFn,
     enabled: !!id,
     ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
-}
+  } as UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
 
 export type NinjaCrudViewsReadViewCategoryReadQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>
->
-export type NinjaCrudViewsReadViewCategoryReadQueryError = ErrorType<unknown>
+>;
+export type NinjaCrudViewsReadViewCategoryReadQueryError = ErrorType<unknown>;
 
 /**
  * @summary Category Read
@@ -323,25 +292,18 @@ export function useNinjaCrudViewsReadViewCategoryRead<
 >(
   id?: string | null | undefined | null,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>,
-      TError,
-      TData
-    >
+    query?: UseQueryOptions<Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>, TError, TData>;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNinjaCrudViewsReadViewCategoryReadQueryOptions(
-    id,
-    options
-  )
+  const queryOptions = getNinjaCrudViewsReadViewCategoryReadQueryOptions(id, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 export const getNinjaCrudViewsReadViewCategoryReadSuspenseQueryOptions = <
@@ -354,17 +316,16 @@ export const getNinjaCrudViewsReadViewCategoryReadSuspenseQueryOptions = <
       Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>,
       TError,
       TData
-    >
+    >;
   }
 ) => {
-  const { query: queryOptions } = options ?? {}
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNinjaCrudViewsReadViewCategoryReadQueryKey(id)
+  const queryKey = queryOptions?.queryKey ?? getNinjaCrudViewsReadViewCategoryReadQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>
-  > = ({ signal }) => ninjaCrudViewsReadViewCategoryRead(id, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>> = ({
+    signal,
+  }) => ninjaCrudViewsReadViewCategoryRead(id, signal);
 
   return {
     queryKey,
@@ -375,14 +336,13 @@ export const getNinjaCrudViewsReadViewCategoryReadSuspenseQueryOptions = <
     Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
-}
+  > & { queryKey: QueryKey };
+};
 
 export type NinjaCrudViewsReadViewCategoryReadSuspenseQueryResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>
->
-export type NinjaCrudViewsReadViewCategoryReadSuspenseQueryError =
-  ErrorType<unknown>
+>;
+export type NinjaCrudViewsReadViewCategoryReadSuspenseQueryError = ErrorType<unknown>;
 
 /**
  * @summary Category Read
@@ -398,20 +358,18 @@ export function useNinjaCrudViewsReadViewCategoryReadSuspense<
       Awaited<ReturnType<typeof ninjaCrudViewsReadViewCategoryRead>>,
       TError,
       TData
-    >
+    >;
   }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions =
-    getNinjaCrudViewsReadViewCategoryReadSuspenseQueryOptions(id, options)
+  const queryOptions = getNinjaCrudViewsReadViewCategoryReadSuspenseQueryOptions(id, options);
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey;
 
-  return query
+  return query;
 }
 
 /**
@@ -423,11 +381,11 @@ export const ninjaCrudViewsUpdateViewCategoryUpdate = (
 ) => {
   return customInstance<CategoryOut>({
     url: `/api/category/${id}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
     data: categoryIn,
-  })
-}
+  });
+};
 
 export const getNinjaCrudViewsUpdateViewCategoryUpdateMutationOptions = <
   TError = ErrorType<unknown>,
@@ -438,33 +396,32 @@ export const getNinjaCrudViewsUpdateViewCategoryUpdateMutationOptions = <
     TError,
     { data: CategoryIn; id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof ninjaCrudViewsUpdateViewCategoryUpdate>>,
   TError,
   { data: CategoryIn; id?: string | null },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof ninjaCrudViewsUpdateViewCategoryUpdate>>,
     { data: CategoryIn; id?: string | null }
   > = (props) => {
-    const { data, id } = props ?? {}
+    const { data, id } = props ?? {};
 
-    return ninjaCrudViewsUpdateViewCategoryUpdate(data, id)
-  }
+    return ninjaCrudViewsUpdateViewCategoryUpdate(data, id);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type NinjaCrudViewsUpdateViewCategoryUpdateMutationResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsUpdateViewCategoryUpdate>>
->
-export type NinjaCrudViewsUpdateViewCategoryUpdateMutationBody = CategoryIn
-export type NinjaCrudViewsUpdateViewCategoryUpdateMutationError =
-  ErrorType<unknown>
+>;
+export type NinjaCrudViewsUpdateViewCategoryUpdateMutationBody = CategoryIn;
+export type NinjaCrudViewsUpdateViewCategoryUpdateMutationError = ErrorType<unknown>;
 
 /**
  * @summary Category Update
@@ -478,26 +435,23 @@ export const useNinjaCrudViewsUpdateViewCategoryUpdate = <
     TError,
     { data: CategoryIn; id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof ninjaCrudViewsUpdateViewCategoryUpdate>>,
   TError,
   { data: CategoryIn; id?: string | null },
   TContext
 > => {
-  const mutationOptions =
-    getNinjaCrudViewsUpdateViewCategoryUpdateMutationOptions(options)
+  const mutationOptions = getNinjaCrudViewsUpdateViewCategoryUpdateMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};
 /**
  * @summary Category Delete
  */
-export const ninjaCrudViewsDeleteViewCategoryDelete = (
-  id?: string | null | undefined | null
-) => {
-  return customInstance<void>({ url: `/api/category/${id}`, method: 'DELETE' })
-}
+export const ninjaCrudViewsDeleteViewCategoryDelete = (id?: string | null | undefined | null) => {
+  return customInstance<void>({ url: `/api/category/${id}`, method: "DELETE" });
+};
 
 export const getNinjaCrudViewsDeleteViewCategoryDeleteMutationOptions = <
   TError = ErrorType<unknown>,
@@ -508,33 +462,32 @@ export const getNinjaCrudViewsDeleteViewCategoryDeleteMutationOptions = <
     TError,
     { id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewCategoryDelete>>,
   TError,
   { id?: string | null },
   TContext
 > => {
-  const { mutation: mutationOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewCategoryDelete>>,
     { id?: string | null }
   > = (props) => {
-    const { id } = props ?? {}
+    const { id } = props ?? {};
 
-    return ninjaCrudViewsDeleteViewCategoryDelete(id)
-  }
+    return ninjaCrudViewsDeleteViewCategoryDelete(id);
+  };
 
-  return { mutationFn, ...mutationOptions }
-}
+  return { mutationFn, ...mutationOptions };
+};
 
 export type NinjaCrudViewsDeleteViewCategoryDeleteMutationResult = NonNullable<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewCategoryDelete>>
->
+>;
 
-export type NinjaCrudViewsDeleteViewCategoryDeleteMutationError =
-  ErrorType<unknown>
+export type NinjaCrudViewsDeleteViewCategoryDeleteMutationError = ErrorType<unknown>;
 
 /**
  * @summary Category Delete
@@ -548,15 +501,14 @@ export const useNinjaCrudViewsDeleteViewCategoryDelete = <
     TError,
     { id?: string | null },
     TContext
-  >
+  >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof ninjaCrudViewsDeleteViewCategoryDelete>>,
   TError,
   { id?: string | null },
   TContext
 > => {
-  const mutationOptions =
-    getNinjaCrudViewsDeleteViewCategoryDeleteMutationOptions(options)
+  const mutationOptions = getNinjaCrudViewsDeleteViewCategoryDeleteMutationOptions(options);
 
-  return useMutation(mutationOptions)
-}
+  return useMutation(mutationOptions);
+};

@@ -43,12 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'content',
     "ninja_jwt",
     "ninja_extra",
-    'django_extensions', # https://django-extensions.readthedocs.io/en/latest/
+    'django_extensions',  # https://django-extensions.readthedocs.io/en/latest/
     "corsheaders",  # https://pypi.org/project/django-cors-headers/
     "import_export",  # https://django-import-export.readthedocs.io/en/latest/
     "simple_history",  # https://django-simple-history.readthedocs.io/en/latest/quick_start.html#install
+    "django_bootstrap5",  # https://pypi.org/project/django-bootstrap5/
 ]
 
 MIDDLEWARE = [
@@ -61,7 +63,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
-
 ]
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
@@ -73,7 +74,7 @@ ROOT_URLCONF = 'shopping_list.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [F'{BASE_DIR}/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,7 +121,7 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": '{levelname}|{asctime}|{name}.{funcName}:{lineno}|{message}',
-             'style': '{',
+            'style': '{',
         },
     },
     "handlers": {
@@ -142,7 +143,7 @@ LOGGING = {
             "level": os.environ.get('LOGLEVEL', 'INFO').upper(),
             "propagate": True,
         },
-    }
+    },
 }
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -171,12 +172,8 @@ MEDIA_URL = "media/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 NINJA_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(
-        minutes=env.int("JWT_ACCESS_TOKEN_LIFETIME_MINUTES")
-    ),
-    "REFRESH_TOKEN_LIFETIME": timedelta(
-        days=env.int("JWT_ACCESS_REFRESH_LIFETIME_DAYS")
-    ),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=env.int("JWT_ACCESS_TOKEN_LIFETIME_MINUTES")),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=env.int("JWT_ACCESS_REFRESH_LIFETIME_DAYS")),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,

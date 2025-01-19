@@ -23,7 +23,8 @@
         "ms-python.black-formatter",
         "njpwerner.autodocstring",
         "vivaxy.vscode-conventional-commits",
-        "freakypie.code-python-isort"
+        "freakypie.code-python-isort",
+        "junstyle.vscode-django-support"
       ],
       "settings": {
         "python.pythonPath": "/usr/local/bin/python",
